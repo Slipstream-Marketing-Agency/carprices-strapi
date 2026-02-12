@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_common_key_features",
+  "info": {
+    "displayName": "Key Features",
+    "icon": "information",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "description": {
+      "type": "text"
+    },
+    "key_feature_title": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::key-feature-title.key-feature-title"
+    }
+  }
+}

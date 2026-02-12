@@ -1,0 +1,79 @@
+{
+  "kind": "collectionType",
+  "collectionName": "loan_enquiries",
+  "info": {
+    "singularName": "loan-enquirie",
+    "pluralName": "loan-enquiries",
+    "displayName": "Loan Enquiries",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "car": {
+      "type": "string"
+    },
+    "price": {
+      "type": "string"
+    },
+    "tenure": {
+      "type": "string"
+    },
+    "interest_rate": {
+      "type": "string"
+    },
+    "down_payment": {
+      "type": "string"
+    },
+    "uae_national": {
+      "type": "boolean",
+      "default": false
+    },
+    "application_type": {
+      "type": "enumeration",
+      "enum": [
+        "Individual",
+        "Company"
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "mobile_number": {
+      "type": "string"
+    },
+    "monthly_income": {
+      "type": "string"
+    },
+    "emirate": {
+      "type": "enumeration",
+      "enum": [
+        "Abu Dhabi",
+        "Dubai",
+        "Sharjah",
+        "Ajman",
+        "Um Al-Quwain",
+        "Ras Al Khaimah",
+        "Fujairah"
+      ]
+    },
+    "subscribe_to_offers": {
+      "type": "boolean",
+      "default": false
+    },
+    "monthly_emi": {
+      "type": "string"
+    },
+    "total_interest": {
+      "type": "string"
+    },
+    "total_amount_payable": {
+      "type": "string"
+    }
+  }
+}

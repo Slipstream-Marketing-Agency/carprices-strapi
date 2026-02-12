@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "brand_sections",
+  "info": {
+    "singularName": "brand-section",
+    "pluralName": "brand-sections",
+    "displayName": "Brand Sections",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        },
+        "translate": {
+          "translate": "translate"
+        }
+      }
+    },
+    "car_brands": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::car-brand.car-brand",
+      "pluginOptions": {
+        "translate": {
+          "translate": "translate"
+        }
+      },
+      "mappedBy": "brand_section"
+    }
+  }
+}

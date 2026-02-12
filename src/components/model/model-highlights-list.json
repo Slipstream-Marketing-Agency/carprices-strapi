@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_model_model_highlights_lists",
+  "info": {
+    "displayName": "Model Highlights List",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "list": {
+      "type": "string",
+      "maxLength": 35
+    }
+  }
+}

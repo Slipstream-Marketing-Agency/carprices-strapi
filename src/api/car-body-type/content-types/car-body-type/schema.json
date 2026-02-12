@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "car_body_types",
+  "info": {
+    "singularName": "car-body-type",
+    "pluralName": "car-body-types",
+    "displayName": "Car Body Types",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "car_trims": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::car-trim.car-trim",
+      "mappedBy": "car_body_types"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

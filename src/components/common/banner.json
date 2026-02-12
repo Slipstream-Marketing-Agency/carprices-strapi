@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_common_banners",
+  "info": {
+    "displayName": "Banner",
+    "icon": "picture"
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "allowedTypes": [
+        "images",
+        "videos"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "banner_text": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "car_reviews",
+  "info": {
+    "singularName": "car-review",
+    "pluralName": "car-reviews",
+    "displayName": "Car Reviews",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "opinion": {
+      "type": "text"
+    },
+    "rating": {
+      "type": "integer"
+    },
+    "car_model": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::car-model.car-model",
+      "inversedBy": "car_reviews"
+    },
+    "helpfulYes": {
+      "type": "integer"
+    },
+    "helpfulNo": {
+      "type": "integer"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "car_reviews"
+    }
+  }
+}

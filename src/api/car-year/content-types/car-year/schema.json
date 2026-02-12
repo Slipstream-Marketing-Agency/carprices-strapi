@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "car_years",
+  "info": {
+    "singularName": "car-year",
+    "pluralName": "car-years",
+    "displayName": "Car Years"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "year": {
+      "type": "integer"
+    },
+    "enabled": {
+      "type": "boolean"
+    }
+  }
+}

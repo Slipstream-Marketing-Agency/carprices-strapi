@@ -1,0 +1,43 @@
+{
+  "kind": "singleType",
+  "collectionName": "homes",
+  "info": {
+    "singularName": "home",
+    "pluralName": "homes",
+    "displayName": "Home",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "banner_text": {
+      "type": "text"
+    },
+    "banner_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "videos"
+      ]
+    },
+    "car_brands": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::car-brand.car-brand"
+    },
+    "car_body_types": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::car-body-type.car-body-type"
+    },
+    "article_types": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::article-type.article-type"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "article_comments",
+  "info": {
+    "singularName": "article-comment",
+    "pluralName": "article-comments",
+    "displayName": "Article Comments",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "opinion": {
+      "type": "text"
+    },
+    "likes": {
+      "type": "integer"
+    },
+    "article": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::article.article",
+      "inversedBy": "article_comments"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "article_comments"
+    },
+    "article_comment": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::article-comment.article-comment",
+      "inversedBy": "article_comments"
+    },
+    "article_comments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::article-comment.article-comment",
+      "mappedBy": "article_comment"
+    }
+  }
+}

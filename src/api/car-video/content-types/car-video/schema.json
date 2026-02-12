@@ -1,0 +1,73 @@
+{
+  "kind": "collectionType",
+  "collectionName": "car_videos",
+  "info": {
+    "singularName": "car-video",
+    "pluralName": "car-videos",
+    "displayName": "Car Videos",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "hostedVideo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "videos"
+      ]
+    },
+    "youtube_url": {
+      "type": "string"
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "select_related_articles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article.article",
+      "inversedBy": "select_related_videos"
+    },
+    "select_related_models": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::car-model.car-model",
+      "inversedBy": "select_related_videos"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
+    "select_related_brands": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::car-brand.car-brand",
+      "inversedBy": "select_related_videos"
+    },
+    "trending": {
+      "type": "boolean",
+      "default": false
+    },
+    "author": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::author.author",
+      "inversedBy": "car_videos"
+    }
+  }
+}

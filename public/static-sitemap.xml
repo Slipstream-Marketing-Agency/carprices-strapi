@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://carprices.ae/news</loc>
+</url>
+<url>
+    <loc>https://carprices.ae/search-cars</loc>
+</url>
+<url>
+    <loc>https://carprices.ae/compare-cars</loc>
+</url>
+<url>
+    <loc>https://carprices.ae/loan-calculator</loc>
+</url>
+<url>
+    <loc>https://carprices.ae/terms-and-conditions</loc>
+</url>
+<url>
+    <loc>https://carprices.ae/privacy</loc>
+</url>
+<url>
+    <loc>https://carprices.ae/code-of-conduct</loc>
+</url>
+<url>
+    <loc>https://carprices.ae/about</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+</url>
+<url>
+    <loc>https://carprices.ae/contact-us</loc>
+</url>
+    </urlset>

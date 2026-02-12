@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_model_high_trims",
+  "info": {
+    "displayName": "High Trim",
+    "icon": "car"
+  },
+  "options": {},
+  "attributes": {
+    "car_trim": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::car-trim.car-trim"
+    }
+  }
+}

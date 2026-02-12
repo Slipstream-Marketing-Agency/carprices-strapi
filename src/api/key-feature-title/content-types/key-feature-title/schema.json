@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "key_feature_titles",
+  "info": {
+    "singularName": "key-feature-title",
+    "pluralName": "key-feature-titles",
+    "displayName": "Key Feature Titles"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "key_feature_title": {
+      "type": "string"
+    },
+    "icon": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

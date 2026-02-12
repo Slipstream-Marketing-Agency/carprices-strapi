@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_story_page_story_pages",
+  "info": {
+    "displayName": "Story Page"
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "caption": {
+      "type": "text"
+    },
+    "order": {
+      "type": "integer"
+    }
+  }
+}

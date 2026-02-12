@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "recent_searches",
+  "info": {
+    "singularName": "recent-search",
+    "pluralName": "recent-searches",
+    "displayName": "Recent Searches"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "term": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "brand": {
+      "type": "string"
+    },
+    "year": {
+      "type": "integer"
+    }
+  }
+}

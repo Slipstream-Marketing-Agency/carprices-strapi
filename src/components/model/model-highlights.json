@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_model_model_highlights",
+  "info": {
+    "displayName": "Model Highlights",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "exteriorImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "lists": {
+      "type": "component",
+      "repeatable": true,
+      "component": "model.model-highlights-list"
+    },
+    "interiorImage": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

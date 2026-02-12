@@ -1,0 +1,159 @@
+{
+  "kind": "collectionType",
+  "collectionName": "car_brands",
+  "info": {
+    "singularName": "car-brand",
+    "pluralName": "car-brands",
+    "displayName": "Car Brands",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        },
+        "translate": {
+          "translate": "translate"
+        }
+      }
+    },
+    "brandLogo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        },
+        "translate": {
+          "translate": "translate"
+        }
+      }
+    },
+    "description": {
+      "type": "customField",
+      "options": {
+        "output": "HTML",
+        "preset": "rich"
+      },
+      "customField": "plugin::ckeditor.CKEditor",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        },
+        "translate": {
+          "translate": "translate"
+        }
+      }
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        },
+        "translate": {
+          "translate": "translate"
+        }
+      }
+    },
+    "car_models": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::car-model.car-model",
+      "pluginOptions": {
+        "translate": {
+          "translate": "translate"
+        }
+      },
+      "mappedBy": "car_brands"
+    },
+    "car_trims": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::car-trim.car-trim",
+      "pluginOptions": {
+        "translate": {
+          "translate": "translate"
+        }
+      },
+      "mappedBy": "car_brands"
+    },
+    "brand_section": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::brand-section.brand-section",
+      "pluginOptions": {
+        "translate": {
+          "translate": "translate"
+        }
+      },
+      "inversedBy": "car_brands"
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article.article",
+      "pluginOptions": {
+        "translate": {
+          "translate": "translate"
+        }
+      },
+      "inversedBy": "car_brands"
+    },
+    "slug": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        },
+        "translate": {
+          "translate": "translate"
+        }
+      },
+      "type": "string"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        },
+        "translate": {
+          "translate": "translate"
+        }
+      },
+      "component": "shared.seo"
+    },
+    "select_related_videos": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::car-video.car-video",
+      "mappedBy": "select_related_brands"
+    },
+    "selected_related_dealers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::car-dealer.car-dealer",
+      "mappedBy": "select_related_brand"
+    }
+  }
+}

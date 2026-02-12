@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "car_sections",
+  "info": {
+    "singularName": "car-section",
+    "pluralName": "car-sections",
+    "displayName": "Car Sections"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "car_models": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::car-model.car-model",
+      "inversedBy": "car_sections"
+    }
+  }
+}

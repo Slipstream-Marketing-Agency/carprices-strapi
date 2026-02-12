@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "dealer_branches",
+  "info": {
+    "singularName": "dealer-branch",
+    "pluralName": "dealer-branches",
+    "displayName": "Dealer Branches"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "car_dealers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::car-dealer.car-dealer",
+      "mappedBy": "dealer_branch"
+    }
+  }
+}

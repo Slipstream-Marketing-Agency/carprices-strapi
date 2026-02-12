@@ -1,0 +1,83 @@
+{
+  "kind": "collectionType",
+  "collectionName": "car_dealers",
+  "info": {
+    "singularName": "car-dealer",
+    "pluralName": "car-dealers",
+    "displayName": "Car Dealers",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "address": {
+      "type": "text"
+    },
+    "phone_number": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "website_url": {
+      "type": "string"
+    },
+    "location": {
+      "type": "json"
+    },
+    "select_related_brand": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::car-brand.car-brand",
+      "inversedBy": "selected_related_dealers"
+    },
+    "description": {
+      "type": "text"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "operating_hours": {
+      "type": "string"
+    },
+    "dealer_branch": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::dealer-branch.dealer-branch",
+      "inversedBy": "car_dealers"
+    },
+    "instagram": {
+      "type": "string"
+    },
+    "linkedin": {
+      "type": "string"
+    },
+    "facebook": {
+      "type": "string"
+    },
+    "twitter": {
+      "type": "string"
+    },
+    "dealer_shop_image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

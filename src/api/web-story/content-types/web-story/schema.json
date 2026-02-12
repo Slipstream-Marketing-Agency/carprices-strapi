@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "web_stories",
+  "info": {
+    "singularName": "web-story",
+    "pluralName": "web-stories",
+    "displayName": "Web Story",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "storyPage": {
+      "type": "component",
+      "repeatable": true,
+      "component": "story-page.story-page"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
+    "article_categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article-category.article-category",
+      "mappedBy": "web_stories"
+    },
+    "article_tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article-tag.article-tag",
+      "mappedBy": "web_stories"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    },
+    "article": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::article.article",
+      "inversedBy": "web_story"
+    }
+  }
+}

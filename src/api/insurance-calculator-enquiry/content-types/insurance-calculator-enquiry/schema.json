@@ -1,0 +1,76 @@
+{
+  "kind": "collectionType",
+  "collectionName": "insurance_calculator_enquiries",
+  "info": {
+    "singularName": "insurance-calculator-enquiry",
+    "pluralName": "insurance-calculator-enquiries",
+    "displayName": "Insurance Calculator Enquiries",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "brand": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "variant": {
+      "type": "string"
+    },
+    "brand_new": {
+      "type": "boolean"
+    },
+    "first_car": {
+      "type": "boolean"
+    },
+    "first_registered": {
+      "type": "string"
+    },
+    "city_to_register": {
+      "type": "string"
+    },
+    "gcc_and_unmodified": {
+      "type": "boolean"
+    },
+    "is_the_current_policy_full_comprehensive": {
+      "type": "boolean"
+    },
+    "current_policy_includes_agency_repair": {
+      "type": "boolean"
+    },
+    "nationality": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "years_of_international_driving_experience": {
+      "type": "string"
+    },
+    "driving_in_uae": {
+      "type": "string"
+    },
+    "full_name": {
+      "type": "string"
+    },
+    "mobile_number": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "dob": {
+      "type": "string"
+    },
+    "insuranceType": {
+      "type": "string"
+    },
+    "year": {
+      "type": "biginteger"
+    }
+  }
+}
