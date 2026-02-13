@@ -142,6 +142,7 @@ module.exports = {
       handler: "car-trim.fetchCarTrims",
       config: {
         policies: [],
+        auth: false,
       },
     },
     {
@@ -150,6 +151,7 @@ module.exports = {
       handler: "car-trim.homeFilter",
       config: {
         policies: [],
+        auth: false,
       },
     },
     {

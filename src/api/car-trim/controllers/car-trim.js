@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 
 const { sanitize } = require('@strapi/utils');
 
@@ -627,180 +627,12 @@ module.exports = createCoreController(
       }
     },
 
+
     async getFuelLists(ctx) {
       try {
-        let brands = ctx.query.brands;
-        let bodyTypes = ctx.query.bodyTypes;
-        let fuelType = ctx.query.fuelType;
-        let cylinders = ctx.query.cylinders;
-        let drive = ctx.query.drive;
-        let transmission = ctx.query.transmission;
-        let priceRanges = ctx.query.priceRanges;
-        let displacementRanges = ctx.query.displacementRanges;
-        let powerRanges = ctx.query.powerRanges;
-        const haveMusic = ctx.query.haveMusic;
-        const isLuxury = ctx.query.isLuxury;
-        const isPremiumLuxury = ctx.query.isPremiumLuxury;
-        const haveTechnology = ctx.query.haveTechnology;
-        const havePerformance = ctx.query.havePerformance;
-        const isSpacious = ctx.query.isSpacious;
-        const isElectric = ctx.query.isElectric;
-        const isFuelEfficient = ctx.query.isFuelEfficient;
-        const isOffRoad = ctx.query.isOffRoad;
-        const isManualTransmission = ctx.query.isManualTransmission;
-        const isAffordableLuxury = ctx.query.isAffordableLuxury;
-        const isSafety = ctx.query.isSafety;
-        const isDuneBashing = ctx.query.isDuneBashing;
-        const isOneSeat = ctx.query.isOneSeat === "1";
-        const isTwoSeat = ctx.query.isTwoSeat === "1";
-        const isTwoPlusTwo = ctx.query.isTwoPlusTwo === "1";
-        const isThreeSeat = ctx.query.isThreeSeat === "1";
-        const isFourSeat = ctx.query.isFourSeat === "1";
-        const isFiveSeat = ctx.query.isFiveSeat === "1";
-        const isSixSeat = ctx.query.isSixSeat === "1";
-        const isSevenSeat = ctx.query.isSevenSeat === "1";
-        const isEightSeat = ctx.query.isEightSeat === "1";
-        const isNineSeat = ctx.query.isNineSeat === "1";
-        const isNinePlusSeat = ctx.query.isNinePlusSeat === "1";
-
-        // Check if brands is a string and try to parse it as JSON
-        if (typeof brands === "string") {
-          try {
-            brands = JSON.parse(brands);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for brands");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!brands || !Array.isArray(brands) || brands.length === 0) {
-          brands = null;
-        }
-
-        if (typeof bodyTypes === "string") {
-          try {
-            bodyTypes = JSON.parse(bodyTypes);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for bodyTypes");
-          }
-        }
-
-        // If bodyTypes is not provided or is an empty array, handle accordingly in the service
-        if (!bodyTypes || !Array.isArray(bodyTypes) || bodyTypes.length === 0) {
-          bodyTypes = null;
-        }
-
-        if (typeof cylinders === "string") {
-          try {
-            cylinders = JSON.parse(cylinders);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for cylinders");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!cylinders || !Array.isArray(cylinders) || cylinders.length === 0) {
-          cylinders = null;
-        }
-
-        if (typeof fuelType === "string") {
-          try {
-            fuelType = JSON.parse(fuelType);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for fuelType");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!fuelType || !Array.isArray(fuelType) || fuelType.length === 0) {
-          fuelType = null;
-        }
-
-        if (typeof drive === "string") {
-          try {
-            drive = JSON.parse(drive);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for drive");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!drive || !Array.isArray(drive) || drive.length === 0) {
-          drive = null;
-        }
-
-        if (typeof transmission === "string") {
-          try {
-            transmission = JSON.parse(transmission);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for transmission");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (
-          !transmission ||
-          !Array.isArray(transmission) ||
-          transmission.length === 0
-        ) {
-          transmission = null;
-        }
-
-        // Parse and validate priceRanges if it's a string
-        if (typeof priceRanges === "string") {
-          try {
-            priceRanges = JSON.parse(priceRanges);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for priceRanges");
-          }
-        }
-
-        // Parse and validate displacementRanges and powerRanges
-        if (typeof displacementRanges === "string") {
-          displacementRanges = JSON.parse(displacementRanges);
-        }
-        if (typeof powerRanges === "string") {
-          powerRanges = JSON.parse(powerRanges);
-        }
-
-        const priceRange = await strapi.services[
-          "api::car-trim.car-trim"
-        ].getFuelLists(
-          brands,
-          bodyTypes,
-          cylinders,
-          fuelType,
-          drive,
-          priceRanges,
-          displacementRanges,
-          powerRanges,
-          transmission,
-          haveMusic,
-          isLuxury,
-          isPremiumLuxury,
-          haveTechnology,
-          havePerformance,
-          isSpacious,
-          isElectric,
-          isFuelEfficient,
-          isOffRoad,
-          isManualTransmission,
-          isAffordableLuxury,
-          isDuneBashing,
-          isSafety,
-          isOneSeat,
-          isTwoPlusTwo,
-          isTwoSeat,
-          isThreeSeat,
-          isFourSeat,
-          isFiveSeat,
-          isSixSeat,
-          isSevenSeat,
-          isEightSeat,
-          isNineSeat,
-          isNinePlusSeat
-        );
-        ctx.body = priceRange;
+        const params = extractQueryParams(ctx);
+        const result = await strapi.services["api::car-trim.car-trim"].getFuelLists(params);
+        ctx.body = result;
       } catch (err) {
         ctx.throw(500, err);
       }
@@ -808,181 +640,9 @@ module.exports = createCoreController(
 
     async getBrandList(ctx) {
       try {
-        let brands = ctx.query.brands;
-        let bodyTypes = ctx.query.bodyTypes;
-        let fuelType = ctx.query.fuelType;
-        let cylinders = ctx.query.cylinders;
-        let drive = ctx.query.drive;
-        let transmission = ctx.query.transmission;
-        let priceRanges = ctx.query.priceRanges;
-        let displacementRanges = ctx.query.displacementRanges;
-        let powerRanges = ctx.query.powerRanges;
-        const haveMusic = ctx.query.haveMusic;
-        const isLuxury = ctx.query.isLuxury;
-        const isPremiumLuxury = ctx.query.isPremiumLuxury;
-        const haveTechnology = ctx.query.haveTechnology;
-        const havePerformance = ctx.query.havePerformance;
-        const isSpacious = ctx.query.isSpacious;
-        const isElectric = ctx.query.isElectric;
-        const isFuelEfficient = ctx.query.isFuelEfficient;
-        const isOffRoad = ctx.query.isOffRoad;
-        const isManualTransmission = ctx.query.isManualTransmission;
-        const isAffordableLuxury = ctx.query.isAffordableLuxury;
-        const isSafety = ctx.query.isSafety;
-        const isDuneBashing = ctx.query.isDuneBashing;
-        const isOneSeat = ctx.query.isOneSeat === "1";
-        const isTwoSeat = ctx.query.isTwoSeat === "1";
-        const isTwoPlusTwo = ctx.query.isTwoPlusTwo === "1";
-        const isThreeSeat = ctx.query.isThreeSeat === "1";
-        const isFourSeat = ctx.query.isFourSeat === "1";
-        const isFiveSeat = ctx.query.isFiveSeat === "1";
-        const isSixSeat = ctx.query.isSixSeat === "1";
-        const isSevenSeat = ctx.query.isSevenSeat === "1";
-        const isEightSeat = ctx.query.isEightSeat === "1";
-        const isNineSeat = ctx.query.isNineSeat === "1";
-        const isNinePlusSeat = ctx.query.isNinePlusSeat === "1";
-
-        // Check if brands is a string and try to parse it as JSON
-        if (typeof brands === "string") {
-          try {
-            brands = JSON.parse(brands);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for brands");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!brands || !Array.isArray(brands) || brands.length === 0) {
-          brands = null;
-        }
-
-        if (typeof bodyTypes === "string") {
-          try {
-            bodyTypes = JSON.parse(bodyTypes);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for bodyTypes");
-          }
-        }
-
-        // If bodyTypes is not provided or is an empty array, handle accordingly in the service
-        if (!bodyTypes || !Array.isArray(bodyTypes) || bodyTypes.length === 0) {
-          bodyTypes = null;
-        }
-
-        if (typeof cylinders === "string") {
-          try {
-            cylinders = JSON.parse(cylinders);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for cylinders");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!cylinders || !Array.isArray(cylinders) || cylinders.length === 0) {
-          cylinders = null;
-        }
-
-        if (typeof fuelType === "string") {
-          try {
-            fuelType = JSON.parse(fuelType);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for fuelType");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!fuelType || !Array.isArray(fuelType) || fuelType.length === 0) {
-          fuelType = null;
-        }
-
-        if (typeof drive === "string") {
-          try {
-            drive = JSON.parse(drive);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for drive");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!drive || !Array.isArray(drive) || drive.length === 0) {
-          drive = null;
-        }
-
-        if (typeof transmission === "string") {
-          try {
-            transmission = JSON.parse(transmission);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for transmission");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (
-          !transmission ||
-          !Array.isArray(transmission) ||
-          transmission.length === 0
-        ) {
-          transmission = null;
-        }
-
-        console.log(priceRanges, "priceRangesTop1");
-        // Parse and validate priceRanges if it's a string
-        if (typeof priceRanges === "string") {
-          try {
-            priceRanges = JSON.parse(priceRanges);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for priceRanges");
-          }
-        }
-
-        console.log(priceRanges, "priceRangesTop2");
-
-        // Parse and validate displacementRanges and powerRanges
-        if (typeof displacementRanges === "string") {
-          displacementRanges = JSON.parse(displacementRanges);
-        }
-        if (typeof powerRanges === "string") {
-          powerRanges = JSON.parse(powerRanges);
-        }
-
-        const priceRange = await strapi.services[
-          "api::car-trim.car-trim"
-        ].getBrandList(
-          brands,
-          bodyTypes,
-          cylinders,
-          fuelType,
-          drive,
-          priceRanges,
-          displacementRanges,
-          powerRanges,
-          transmission,
-          haveMusic,
-          isLuxury,
-          isPremiumLuxury,
-          haveTechnology,
-          havePerformance,
-          isSpacious,
-          isElectric,
-          isFuelEfficient,
-          isOffRoad,
-          isManualTransmission,
-          isAffordableLuxury,
-          isDuneBashing,
-          isSafety,
-          isOneSeat,
-          isTwoPlusTwo,
-          isTwoSeat,
-          isThreeSeat,
-          isFourSeat,
-          isFiveSeat,
-          isSixSeat,
-          isSevenSeat,
-          isEightSeat,
-          isNineSeat,
-          isNinePlusSeat
-        );
-        ctx.body = priceRange;
+        const params = extractQueryParams(ctx);
+        const result = await strapi.services["api::car-trim.car-trim"].getBrandList(params);
+        ctx.body = result;
       } catch (err) {
         ctx.throw(500, err);
       }
@@ -990,178 +650,9 @@ module.exports = createCoreController(
 
     async getBodyLists(ctx) {
       try {
-        let brands = ctx.query.brands;
-        let bodyTypes = ctx.query.bodyTypes;
-        let fuelType = ctx.query.fuelType;
-        let cylinders = ctx.query.cylinders;
-        let drive = ctx.query.drive;
-        let transmission = ctx.query.transmission;
-        let priceRanges = ctx.query.priceRanges;
-        let displacementRanges = ctx.query.displacementRanges;
-        let powerRanges = ctx.query.powerRanges;
-        const haveMusic = ctx.query.haveMusic;
-        const isLuxury = ctx.query.isLuxury;
-        const isPremiumLuxury = ctx.query.isPremiumLuxury;
-        const haveTechnology = ctx.query.haveTechnology;
-        const havePerformance = ctx.query.havePerformance;
-        const isSpacious = ctx.query.isSpacious;
-        const isElectric = ctx.query.isElectric;
-        const isFuelEfficient = ctx.query.isFuelEfficient;
-        const isOffRoad = ctx.query.isOffRoad;
-        const isManualTransmission = ctx.query.isManualTransmission;
-        const isAffordableLuxury = ctx.query.isAffordableLuxury;
-        const isSafety = ctx.query.isSafety;
-        const isDuneBashing = ctx.query.isDuneBashing;
-        const isOneSeat = ctx.query.isOneSeat === "1";
-        const isTwoSeat = ctx.query.isTwoSeat === "1";
-        const isTwoPlusTwo = ctx.query.isTwoPlusTwo === "1";
-        const isThreeSeat = ctx.query.isThreeSeat === "1";
-        const isFourSeat = ctx.query.isFourSeat === "1";
-        const isFiveSeat = ctx.query.isFiveSeat === "1";
-        const isSixSeat = ctx.query.isSixSeat === "1";
-        const isSevenSeat = ctx.query.isSevenSeat === "1";
-        const isEightSeat = ctx.query.isEightSeat === "1";
-        const isNineSeat = ctx.query.isNineSeat === "1";
-        const isNinePlusSeat = ctx.query.isNinePlusSeat === "1";
-
-        // Check if brands is a string and try to parse it as JSON
-        if (typeof brands === "string") {
-          try {
-            brands = JSON.parse(brands);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for brands");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!brands || !Array.isArray(brands) || brands.length === 0) {
-          brands = null;
-        }
-
-        if (typeof bodyTypes === "string") {
-          try {
-            bodyTypes = JSON.parse(bodyTypes);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for bodyTypes");
-          }
-        }
-
-        // If bodyTypes is not provided or is an empty array, handle accordingly in the service
-        if (!bodyTypes || !Array.isArray(bodyTypes) || bodyTypes.length === 0) {
-          bodyTypes = null;
-        }
-
-        if (typeof cylinders === "string") {
-          try {
-            cylinders = JSON.parse(cylinders);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for cylinders");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!cylinders || !Array.isArray(cylinders) || cylinders.length === 0) {
-          cylinders = null;
-        }
-
-        if (typeof fuelType === "string") {
-          try {
-            fuelType = JSON.parse(fuelType);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for fuelType");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!fuelType || !Array.isArray(fuelType) || fuelType.length === 0) {
-          fuelType = null;
-        }
-
-        if (typeof drive === "string") {
-          try {
-            drive = JSON.parse(drive);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for drive");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!drive || !Array.isArray(drive) || drive.length === 0) {
-          drive = null;
-        }
-
-        if (typeof transmission === "string") {
-          try {
-            transmission = JSON.parse(transmission);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for transmission");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (
-          !transmission ||
-          !Array.isArray(transmission) ||
-          transmission.length === 0
-        ) {
-          transmission = null;
-        }
-
-        // Parse and validate priceRanges if it's a string
-        if (typeof priceRanges === "string") {
-          try {
-            priceRanges = JSON.parse(priceRanges);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for priceRanges");
-          }
-        }
-
-        // Parse and validate displacementRanges and powerRanges
-        if (typeof displacementRanges === "string") {
-          displacementRanges = JSON.parse(displacementRanges);
-        }
-        if (typeof powerRanges === "string") {
-          powerRanges = JSON.parse(powerRanges);
-        }
-
-        const priceRange = await strapi.services[
-          "api::car-trim.car-trim"
-        ].getBodyLists(
-          brands,
-          bodyTypes,
-          cylinders,
-          fuelType,
-          drive,
-          priceRanges,
-          displacementRanges,
-          powerRanges,
-          transmission,
-          haveMusic,
-          isLuxury,
-          isPremiumLuxury,
-          haveTechnology,
-          havePerformance,
-          isSpacious,
-          isElectric,
-          isFuelEfficient,
-          isOffRoad,
-          isManualTransmission,
-          isAffordableLuxury,
-          isDuneBashing,
-          isSafety,
-          isOneSeat,
-          isTwoPlusTwo,
-          isTwoSeat,
-          isThreeSeat,
-          isFourSeat,
-          isFiveSeat,
-          isSixSeat,
-          isSevenSeat,
-          isEightSeat,
-          isNineSeat,
-          isNinePlusSeat
-        );
-        ctx.body = priceRange;
+        const params = extractQueryParams(ctx);
+        const result = await strapi.services["api::car-trim.car-trim"].getBodyLists(params);
+        ctx.body = result;
       } catch (err) {
         ctx.throw(500, err);
       }
@@ -1169,178 +660,9 @@ module.exports = createCoreController(
 
     async getCylinderList(ctx) {
       try {
-        let brands = ctx.query.brands;
-        let bodyTypes = ctx.query.bodyTypes;
-        let fuelType = ctx.query.fuelType;
-        let cylinders = ctx.query.cylinders;
-        let drive = ctx.query.drive;
-        let transmission = ctx.query.transmission;
-        let priceRanges = ctx.query.priceRanges;
-        let displacementRanges = ctx.query.displacementRanges;
-        let powerRanges = ctx.query.powerRanges;
-        const haveMusic = ctx.query.haveMusic;
-        const isLuxury = ctx.query.isLuxury;
-        const isPremiumLuxury = ctx.query.isPremiumLuxury;
-        const haveTechnology = ctx.query.haveTechnology;
-        const havePerformance = ctx.query.havePerformance;
-        const isSpacious = ctx.query.isSpacious;
-        const isElectric = ctx.query.isElectric;
-        const isFuelEfficient = ctx.query.isFuelEfficient;
-        const isOffRoad = ctx.query.isOffRoad;
-        const isManualTransmission = ctx.query.isManualTransmission;
-        const isAffordableLuxury = ctx.query.isAffordableLuxury;
-        const isSafety = ctx.query.isSafety;
-        const isDuneBashing = ctx.query.isDuneBashing;
-        const isOneSeat = ctx.query.isOneSeat === "1";
-        const isTwoSeat = ctx.query.isTwoSeat === "1";
-        const isTwoPlusTwo = ctx.query.isTwoPlusTwo === "1";
-        const isThreeSeat = ctx.query.isThreeSeat === "1";
-        const isFourSeat = ctx.query.isFourSeat === "1";
-        const isFiveSeat = ctx.query.isFiveSeat === "1";
-        const isSixSeat = ctx.query.isSixSeat === "1";
-        const isSevenSeat = ctx.query.isSevenSeat === "1";
-        const isEightSeat = ctx.query.isEightSeat === "1";
-        const isNineSeat = ctx.query.isNineSeat === "1";
-        const isNinePlusSeat = ctx.query.isNinePlusSeat === "1";
-
-        // Check if brands is a string and try to parse it as JSON
-        if (typeof brands === "string") {
-          try {
-            brands = JSON.parse(brands);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for brands");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!brands || !Array.isArray(brands) || brands.length === 0) {
-          brands = null;
-        }
-
-        if (typeof bodyTypes === "string") {
-          try {
-            bodyTypes = JSON.parse(bodyTypes);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for bodyTypes");
-          }
-        }
-
-        // If bodyTypes is not provided or is an empty array, handle accordingly in the service
-        if (!bodyTypes || !Array.isArray(bodyTypes) || bodyTypes.length === 0) {
-          bodyTypes = null;
-        }
-
-        if (typeof cylinders === "string") {
-          try {
-            cylinders = JSON.parse(cylinders);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for cylinders");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!cylinders || !Array.isArray(cylinders) || cylinders.length === 0) {
-          cylinders = null;
-        }
-
-        if (typeof fuelType === "string") {
-          try {
-            fuelType = JSON.parse(fuelType);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for fuelType");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!fuelType || !Array.isArray(fuelType) || fuelType.length === 0) {
-          fuelType = null;
-        }
-
-        if (typeof drive === "string") {
-          try {
-            drive = JSON.parse(drive);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for drive");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!drive || !Array.isArray(drive) || drive.length === 0) {
-          drive = null;
-        }
-
-        if (typeof transmission === "string") {
-          try {
-            transmission = JSON.parse(transmission);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for transmission");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (
-          !transmission ||
-          !Array.isArray(transmission) ||
-          transmission.length === 0
-        ) {
-          transmission = null;
-        }
-
-        // Parse and validate priceRanges if it's a string
-        if (typeof priceRanges === "string") {
-          try {
-            priceRanges = JSON.parse(priceRanges);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for priceRanges");
-          }
-        }
-
-        // Parse and validate displacementRanges and powerRanges
-        if (typeof displacementRanges === "string") {
-          displacementRanges = JSON.parse(displacementRanges);
-        }
-        if (typeof powerRanges === "string") {
-          powerRanges = JSON.parse(powerRanges);
-        }
-
-        const priceRange = await strapi.services[
-          "api::car-trim.car-trim"
-        ].getCylinderList(
-          brands,
-          bodyTypes,
-          cylinders,
-          fuelType,
-          drive,
-          priceRanges,
-          displacementRanges,
-          powerRanges,
-          transmission,
-          haveMusic,
-          isLuxury,
-          isPremiumLuxury,
-          haveTechnology,
-          havePerformance,
-          isSpacious,
-          isElectric,
-          isFuelEfficient,
-          isOffRoad,
-          isManualTransmission,
-          isAffordableLuxury,
-          isDuneBashing,
-          isSafety,
-          isOneSeat,
-          isTwoPlusTwo,
-          isTwoSeat,
-          isThreeSeat,
-          isFourSeat,
-          isFiveSeat,
-          isSixSeat,
-          isSevenSeat,
-          isEightSeat,
-          isNineSeat,
-          isNinePlusSeat
-        );
-        ctx.body = priceRange;
+        const params = extractQueryParams(ctx);
+        const result = await strapi.services["api::car-trim.car-trim"].getCylinderList(params);
+        ctx.body = result;
       } catch (err) {
         ctx.throw(500, err);
       }
@@ -1348,178 +670,9 @@ module.exports = createCoreController(
 
     async getDriveLists(ctx) {
       try {
-        let brands = ctx.query.brands;
-        let bodyTypes = ctx.query.bodyTypes;
-        let fuelType = ctx.query.fuelType;
-        let cylinders = ctx.query.cylinders;
-        let drive = ctx.query.drive;
-        let transmission = ctx.query.transmission;
-        let priceRanges = ctx.query.priceRanges;
-        let displacementRanges = ctx.query.displacementRanges;
-        let powerRanges = ctx.query.powerRanges;
-        const haveMusic = ctx.query.haveMusic;
-        const isLuxury = ctx.query.isLuxury;
-        const isPremiumLuxury = ctx.query.isPremiumLuxury;
-        const haveTechnology = ctx.query.haveTechnology;
-        const havePerformance = ctx.query.havePerformance;
-        const isSpacious = ctx.query.isSpacious;
-        const isElectric = ctx.query.isElectric;
-        const isFuelEfficient = ctx.query.isFuelEfficient;
-        const isOffRoad = ctx.query.isOffRoad;
-        const isManualTransmission = ctx.query.isManualTransmission;
-        const isAffordableLuxury = ctx.query.isAffordableLuxury;
-        const isSafety = ctx.query.isSafety;
-        const isDuneBashing = ctx.query.isDuneBashing;
-        const isOneSeat = ctx.query.isOneSeat === "1";
-        const isTwoSeat = ctx.query.isTwoSeat === "1";
-        const isTwoPlusTwo = ctx.query.isTwoPlusTwo === "1";
-        const isThreeSeat = ctx.query.isThreeSeat === "1";
-        const isFourSeat = ctx.query.isFourSeat === "1";
-        const isFiveSeat = ctx.query.isFiveSeat === "1";
-        const isSixSeat = ctx.query.isSixSeat === "1";
-        const isSevenSeat = ctx.query.isSevenSeat === "1";
-        const isEightSeat = ctx.query.isEightSeat === "1";
-        const isNineSeat = ctx.query.isNineSeat === "1";
-        const isNinePlusSeat = ctx.query.isNinePlusSeat === "1";
-
-        // Check if brands is a string and try to parse it as JSON
-        if (typeof brands === "string") {
-          try {
-            brands = JSON.parse(brands);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for brands");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!brands || !Array.isArray(brands) || brands.length === 0) {
-          brands = null;
-        }
-
-        if (typeof bodyTypes === "string") {
-          try {
-            bodyTypes = JSON.parse(bodyTypes);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for bodyTypes");
-          }
-        }
-
-        // If bodyTypes is not provided or is an empty array, handle accordingly in the service
-        if (!bodyTypes || !Array.isArray(bodyTypes) || bodyTypes.length === 0) {
-          bodyTypes = null;
-        }
-
-        if (typeof cylinders === "string") {
-          try {
-            cylinders = JSON.parse(cylinders);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for cylinders");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!cylinders || !Array.isArray(cylinders) || cylinders.length === 0) {
-          cylinders = null;
-        }
-
-        if (typeof fuelType === "string") {
-          try {
-            fuelType = JSON.parse(fuelType);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for fuelType");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!fuelType || !Array.isArray(fuelType) || fuelType.length === 0) {
-          fuelType = null;
-        }
-
-        if (typeof drive === "string") {
-          try {
-            drive = JSON.parse(drive);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for drive");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!drive || !Array.isArray(drive) || drive.length === 0) {
-          drive = null;
-        }
-
-        if (typeof transmission === "string") {
-          try {
-            transmission = JSON.parse(transmission);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for transmission");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (
-          !transmission ||
-          !Array.isArray(transmission) ||
-          transmission.length === 0
-        ) {
-          transmission = null;
-        }
-
-        // Parse and validate priceRanges if it's a string
-        if (typeof priceRanges === "string") {
-          try {
-            priceRanges = JSON.parse(priceRanges);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for priceRanges");
-          }
-        }
-
-        // Parse and validate displacementRanges and powerRanges
-        if (typeof displacementRanges === "string") {
-          displacementRanges = JSON.parse(displacementRanges);
-        }
-        if (typeof powerRanges === "string") {
-          powerRanges = JSON.parse(powerRanges);
-        }
-
-        const priceRange = await strapi.services[
-          "api::car-trim.car-trim"
-        ].getDriveLists(
-          brands,
-          bodyTypes,
-          cylinders,
-          fuelType,
-          drive,
-          priceRanges,
-          displacementRanges,
-          powerRanges,
-          transmission,
-          haveMusic,
-          isLuxury,
-          isPremiumLuxury,
-          haveTechnology,
-          havePerformance,
-          isSpacious,
-          isElectric,
-          isFuelEfficient,
-          isOffRoad,
-          isManualTransmission,
-          isAffordableLuxury,
-          isDuneBashing,
-          isSafety,
-          isOneSeat,
-          isTwoPlusTwo,
-          isTwoSeat,
-          isThreeSeat,
-          isFourSeat,
-          isFiveSeat,
-          isSixSeat,
-          isSevenSeat,
-          isEightSeat,
-          isNineSeat,
-          isNinePlusSeat
-        );
-        ctx.body = priceRange;
+        const params = extractQueryParams(ctx);
+        const result = await strapi.services["api::car-trim.car-trim"].getDriveLists(params);
+        ctx.body = result;
       } catch (err) {
         ctx.throw(500, err);
       }
@@ -1527,178 +680,9 @@ module.exports = createCoreController(
 
     async getTransmissionList(ctx) {
       try {
-        let brands = ctx.query.brands;
-        let bodyTypes = ctx.query.bodyTypes;
-        let fuelType = ctx.query.fuelType;
-        let cylinders = ctx.query.cylinders;
-        let drive = ctx.query.drive;
-        let transmission = ctx.query.transmission;
-        let priceRanges = ctx.query.priceRanges;
-        let displacementRanges = ctx.query.displacementRanges;
-        let powerRanges = ctx.query.powerRanges;
-        const haveMusic = ctx.query.haveMusic;
-        const isLuxury = ctx.query.isLuxury;
-        const isPremiumLuxury = ctx.query.isPremiumLuxury;
-        const haveTechnology = ctx.query.haveTechnology;
-        const havePerformance = ctx.query.havePerformance;
-        const isSpacious = ctx.query.isSpacious;
-        const isElectric = ctx.query.isElectric;
-        const isFuelEfficient = ctx.query.isFuelEfficient;
-        const isOffRoad = ctx.query.isOffRoad;
-        const isManualTransmission = ctx.query.isManualTransmission;
-        const isAffordableLuxury = ctx.query.isAffordableLuxury;
-        const isSafety = ctx.query.isSafety;
-        const isDuneBashing = ctx.query.isDuneBashing;
-        const isOneSeat = ctx.query.isOneSeat === "1";
-        const isTwoSeat = ctx.query.isTwoSeat === "1";
-        const isTwoPlusTwo = ctx.query.isTwoPlusTwo === "1";
-        const isThreeSeat = ctx.query.isThreeSeat === "1";
-        const isFourSeat = ctx.query.isFourSeat === "1";
-        const isFiveSeat = ctx.query.isFiveSeat === "1";
-        const isSixSeat = ctx.query.isSixSeat === "1";
-        const isSevenSeat = ctx.query.isSevenSeat === "1";
-        const isEightSeat = ctx.query.isEightSeat === "1";
-        const isNineSeat = ctx.query.isNineSeat === "1";
-        const isNinePlusSeat = ctx.query.isNinePlusSeat === "1";
-
-        // Check if brands is a string and try to parse it as JSON
-        if (typeof brands === "string") {
-          try {
-            brands = JSON.parse(brands);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for brands");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!brands || !Array.isArray(brands) || brands.length === 0) {
-          brands = null;
-        }
-
-        if (typeof bodyTypes === "string") {
-          try {
-            bodyTypes = JSON.parse(bodyTypes);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for bodyTypes");
-          }
-        }
-
-        // If bodyTypes is not provided or is an empty array, handle accordingly in the service
-        if (!bodyTypes || !Array.isArray(bodyTypes) || bodyTypes.length === 0) {
-          bodyTypes = null;
-        }
-
-        if (typeof cylinders === "string") {
-          try {
-            cylinders = JSON.parse(cylinders);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for cylinders");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!cylinders || !Array.isArray(cylinders) || cylinders.length === 0) {
-          cylinders = null;
-        }
-
-        if (typeof fuelType === "string") {
-          try {
-            fuelType = JSON.parse(fuelType);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for fuelType");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!fuelType || !Array.isArray(fuelType) || fuelType.length === 0) {
-          fuelType = null;
-        }
-
-        if (typeof drive === "string") {
-          try {
-            drive = JSON.parse(drive);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for drive");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!drive || !Array.isArray(drive) || drive.length === 0) {
-          drive = null;
-        }
-
-        if (typeof transmission === "string") {
-          try {
-            transmission = JSON.parse(transmission);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for transmission");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (
-          !transmission ||
-          !Array.isArray(transmission) ||
-          transmission.length === 0
-        ) {
-          transmission = null;
-        }
-
-        // Parse and validate priceRanges if it's a string
-        if (typeof priceRanges === "string") {
-          try {
-            priceRanges = JSON.parse(priceRanges);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for priceRanges");
-          }
-        }
-
-        // Parse and validate displacementRanges and powerRanges
-        if (typeof displacementRanges === "string") {
-          displacementRanges = JSON.parse(displacementRanges);
-        }
-        if (typeof powerRanges === "string") {
-          powerRanges = JSON.parse(powerRanges);
-        }
-
-        const priceRange = await strapi.services[
-          "api::car-trim.car-trim"
-        ].getTransmissionList(
-          brands,
-          bodyTypes,
-          cylinders,
-          fuelType,
-          drive,
-          priceRanges,
-          displacementRanges,
-          powerRanges,
-          transmission,
-          haveMusic,
-          isLuxury,
-          isPremiumLuxury,
-          haveTechnology,
-          havePerformance,
-          isSpacious,
-          isElectric,
-          isFuelEfficient,
-          isOffRoad,
-          isManualTransmission,
-          isAffordableLuxury,
-          isDuneBashing,
-          isSafety,
-          isOneSeat,
-          isTwoPlusTwo,
-          isTwoSeat,
-          isThreeSeat,
-          isFourSeat,
-          isFiveSeat,
-          isSixSeat,
-          isSevenSeat,
-          isEightSeat,
-          isNineSeat,
-          isNinePlusSeat
-        );
-        ctx.body = priceRange;
+        const params = extractQueryParams(ctx);
+        const result = await strapi.services["api::car-trim.car-trim"].getTransmissionList(params);
+        ctx.body = result;
       } catch (err) {
         ctx.throw(500, err);
       }
@@ -1706,178 +690,9 @@ module.exports = createCoreController(
 
     async getPriceRange(ctx) {
       try {
-        let brands = ctx.query.brands;
-        let bodyTypes = ctx.query.bodyTypes;
-        let fuelType = ctx.query.fuelType;
-        let cylinders = ctx.query.cylinders;
-        let drive = ctx.query.drive;
-        let transmission = ctx.query.transmission;
-        let priceRanges = ctx.query.priceRanges;
-        let displacementRanges = ctx.query.displacementRanges;
-        let powerRanges = ctx.query.powerRanges;
-        const haveMusic = ctx.query.haveMusic;
-        const isLuxury = ctx.query.isLuxury;
-        const isPremiumLuxury = ctx.query.isPremiumLuxury;
-        const haveTechnology = ctx.query.haveTechnology;
-        const havePerformance = ctx.query.havePerformance;
-        const isSpacious = ctx.query.isSpacious;
-        const isElectric = ctx.query.isElectric;
-        const isFuelEfficient = ctx.query.isFuelEfficient;
-        const isOffRoad = ctx.query.isOffRoad;
-        const isManualTransmission = ctx.query.isManualTransmission;
-        const isAffordableLuxury = ctx.query.isAffordableLuxury;
-        const isSafety = ctx.query.isSafety;
-        const isDuneBashing = ctx.query.isDuneBashing;
-        const isOneSeat = ctx.query.isOneSeat === "1";
-        const isTwoSeat = ctx.query.isTwoSeat === "1";
-        const isTwoPlusTwo = ctx.query.isTwoPlusTwo === "1";
-        const isThreeSeat = ctx.query.isThreeSeat === "1";
-        const isFourSeat = ctx.query.isFourSeat === "1";
-        const isFiveSeat = ctx.query.isFiveSeat === "1";
-        const isSixSeat = ctx.query.isSixSeat === "1";
-        const isSevenSeat = ctx.query.isSevenSeat === "1";
-        const isEightSeat = ctx.query.isEightSeat === "1";
-        const isNineSeat = ctx.query.isNineSeat === "1";
-        const isNinePlusSeat = ctx.query.isNinePlusSeat === "1";
-
-        // Check if brands is a string and try to parse it as JSON
-        if (typeof brands === "string") {
-          try {
-            brands = JSON.parse(brands);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for brands");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!brands || !Array.isArray(brands) || brands.length === 0) {
-          brands = null;
-        }
-
-        if (typeof bodyTypes === "string") {
-          try {
-            bodyTypes = JSON.parse(bodyTypes);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for bodyTypes");
-          }
-        }
-
-        // If bodyTypes is not provided or is an empty array, handle accordingly in the service
-        if (!bodyTypes || !Array.isArray(bodyTypes) || bodyTypes.length === 0) {
-          bodyTypes = null;
-        }
-
-        if (typeof cylinders === "string") {
-          try {
-            cylinders = JSON.parse(cylinders);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for cylinders");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!cylinders || !Array.isArray(cylinders) || cylinders.length === 0) {
-          cylinders = null;
-        }
-
-        if (typeof fuelType === "string") {
-          try {
-            fuelType = JSON.parse(fuelType);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for fuelType");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!fuelType || !Array.isArray(fuelType) || fuelType.length === 0) {
-          fuelType = null;
-        }
-
-        if (typeof drive === "string") {
-          try {
-            drive = JSON.parse(drive);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for drive");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!drive || !Array.isArray(drive) || drive.length === 0) {
-          drive = null;
-        }
-
-        if (typeof transmission === "string") {
-          try {
-            transmission = JSON.parse(transmission);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for transmission");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (
-          !transmission ||
-          !Array.isArray(transmission) ||
-          transmission.length === 0
-        ) {
-          transmission = null;
-        }
-
-        // Parse and validate priceRanges if it's a string
-        if (typeof priceRanges === "string") {
-          try {
-            priceRanges = JSON.parse(priceRanges);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for priceRanges");
-          }
-        }
-
-        // Parse and validate displacementRanges and powerRanges
-        if (typeof displacementRanges === "string") {
-          displacementRanges = JSON.parse(displacementRanges);
-        }
-        if (typeof powerRanges === "string") {
-          powerRanges = JSON.parse(powerRanges);
-        }
-
-        const priceRange = await strapi.services[
-          "api::car-trim.car-trim"
-        ].getPriceRange(
-          brands,
-          bodyTypes,
-          cylinders,
-          fuelType,
-          drive,
-          priceRanges,
-          displacementRanges,
-          powerRanges,
-          transmission,
-          haveMusic,
-          isLuxury,
-          isPremiumLuxury,
-          haveTechnology,
-          havePerformance,
-          isSpacious,
-          isElectric,
-          isFuelEfficient,
-          isOffRoad,
-          isManualTransmission,
-          isAffordableLuxury,
-          isDuneBashing,
-          isSafety,
-          isOneSeat,
-          isTwoPlusTwo,
-          isTwoSeat,
-          isThreeSeat,
-          isFourSeat,
-          isFiveSeat,
-          isSixSeat,
-          isSevenSeat,
-          isEightSeat,
-          isNineSeat,
-          isNinePlusSeat
-        );
-        ctx.body = priceRange;
+        const params = extractQueryParams(ctx);
+        const result = await strapi.services["api::car-trim.car-trim"].getPriceRange(params);
+        ctx.body = result;
       } catch (err) {
         ctx.throw(500, err);
       }
@@ -1885,178 +700,9 @@ module.exports = createCoreController(
 
     async getPowerRange(ctx) {
       try {
-        let brands = ctx.query.brands;
-        let bodyTypes = ctx.query.bodyTypes;
-        let fuelType = ctx.query.fuelType;
-        let cylinders = ctx.query.cylinders;
-        let drive = ctx.query.drive;
-        let transmission = ctx.query.transmission;
-        let priceRanges = ctx.query.priceRanges;
-        let displacementRanges = ctx.query.displacementRanges;
-        let powerRanges = ctx.query.powerRanges;
-        const haveMusic = ctx.query.haveMusic;
-        const isLuxury = ctx.query.isLuxury;
-        const isPremiumLuxury = ctx.query.isPremiumLuxury;
-        const haveTechnology = ctx.query.haveTechnology;
-        const havePerformance = ctx.query.havePerformance;
-        const isSpacious = ctx.query.isSpacious;
-        const isElectric = ctx.query.isElectric;
-        const isFuelEfficient = ctx.query.isFuelEfficient;
-        const isOffRoad = ctx.query.isOffRoad;
-        const isManualTransmission = ctx.query.isManualTransmission;
-        const isAffordableLuxury = ctx.query.isAffordableLuxury;
-        const isSafety = ctx.query.isSafety;
-        const isDuneBashing = ctx.query.isDuneBashing;
-        const isOneSeat = ctx.query.isOneSeat === "1";
-        const isTwoSeat = ctx.query.isTwoSeat === "1";
-        const isTwoPlusTwo = ctx.query.isTwoPlusTwo === "1";
-        const isThreeSeat = ctx.query.isThreeSeat === "1";
-        const isFourSeat = ctx.query.isFourSeat === "1";
-        const isFiveSeat = ctx.query.isFiveSeat === "1";
-        const isSixSeat = ctx.query.isSixSeat === "1";
-        const isSevenSeat = ctx.query.isSevenSeat === "1";
-        const isEightSeat = ctx.query.isEightSeat === "1";
-        const isNineSeat = ctx.query.isNineSeat === "1";
-        const isNinePlusSeat = ctx.query.isNinePlusSeat === "1";
-
-        // Check if brands is a string and try to parse it as JSON
-        if (typeof brands === "string") {
-          try {
-            brands = JSON.parse(brands);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for brands");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!brands || !Array.isArray(brands) || brands.length === 0) {
-          brands = null;
-        }
-
-        if (typeof bodyTypes === "string") {
-          try {
-            bodyTypes = JSON.parse(bodyTypes);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for bodyTypes");
-          }
-        }
-
-        // If bodyTypes is not provided or is an empty array, handle accordingly in the service
-        if (!bodyTypes || !Array.isArray(bodyTypes) || bodyTypes.length === 0) {
-          bodyTypes = null;
-        }
-
-        if (typeof cylinders === "string") {
-          try {
-            cylinders = JSON.parse(cylinders);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for cylinders");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!cylinders || !Array.isArray(cylinders) || cylinders.length === 0) {
-          cylinders = null;
-        }
-
-        if (typeof fuelType === "string") {
-          try {
-            fuelType = JSON.parse(fuelType);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for fuelType");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!fuelType || !Array.isArray(fuelType) || fuelType.length === 0) {
-          fuelType = null;
-        }
-
-        if (typeof drive === "string") {
-          try {
-            drive = JSON.parse(drive);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for drive");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!drive || !Array.isArray(drive) || drive.length === 0) {
-          drive = null;
-        }
-
-        if (typeof transmission === "string") {
-          try {
-            transmission = JSON.parse(transmission);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for transmission");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (
-          !transmission ||
-          !Array.isArray(transmission) ||
-          transmission.length === 0
-        ) {
-          transmission = null;
-        }
-
-        // Parse and validate priceRanges if it's a string
-        if (typeof priceRanges === "string") {
-          try {
-            priceRanges = JSON.parse(priceRanges);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for priceRanges");
-          }
-        }
-
-        // Parse and validate displacementRanges and powerRanges
-        if (typeof displacementRanges === "string") {
-          displacementRanges = JSON.parse(displacementRanges);
-        }
-        if (typeof powerRanges === "string") {
-          powerRanges = JSON.parse(powerRanges);
-        }
-
-        const priceRange = await strapi.services[
-          "api::car-trim.car-trim"
-        ].getPowerRange(
-          brands,
-          bodyTypes,
-          cylinders,
-          fuelType,
-          drive,
-          priceRanges,
-          displacementRanges,
-          powerRanges,
-          transmission,
-          haveMusic,
-          isLuxury,
-          isPremiumLuxury,
-          haveTechnology,
-          havePerformance,
-          isSpacious,
-          isElectric,
-          isFuelEfficient,
-          isOffRoad,
-          isManualTransmission,
-          isAffordableLuxury,
-          isDuneBashing,
-          isSafety,
-          isOneSeat,
-          isTwoPlusTwo,
-          isTwoSeat,
-          isThreeSeat,
-          isFourSeat,
-          isFiveSeat,
-          isSixSeat,
-          isSevenSeat,
-          isEightSeat,
-          isNineSeat,
-          isNinePlusSeat
-        );
-        ctx.body = priceRange;
+        const params = extractQueryParams(ctx);
+        const result = await strapi.services["api::car-trim.car-trim"].getPowerRange(params);
+        ctx.body = result;
       } catch (err) {
         ctx.throw(500, err);
       }
@@ -2064,179 +710,9 @@ module.exports = createCoreController(
 
     async getDisplacementRange(ctx) {
       try {
-        let brands = ctx.query.brands;
-        let bodyTypes = ctx.query.bodyTypes;
-        let fuelType = ctx.query.fuelType;
-        let cylinders = ctx.query.cylinders;
-        let drive = ctx.query.drive;
-        let transmission = ctx.query.transmission;
-        let priceRanges = ctx.query.priceRanges;
-        let displacementRanges = ctx.query.displacementRanges;
-        let powerRanges = ctx.query.powerRanges;
-        const haveMusic = ctx.query.haveMusic;
-        const isLuxury = ctx.query.isLuxury;
-        const isPremiumLuxury = ctx.query.isPremiumLuxury;
-        const haveTechnology = ctx.query.haveTechnology;
-        const havePerformance = ctx.query.havePerformance;
-        const isSpacious = ctx.query.isSpacious;
-        const isElectric = ctx.query.isElectric;
-        const isFuelEfficient = ctx.query.isFuelEfficient;
-        const isOffRoad = ctx.query.isOffRoad;
-        const isManualTransmission = ctx.query.isManualTransmission;
-        const isAffordableLuxury = ctx.query.isAffordableLuxury;
-        const isSafety = ctx.query.isSafety;
-        const isDuneBashing = ctx.query.isDuneBashing;
-        const isOneSeat = ctx.query.isOneSeat === "1";
-        const isTwoSeat = ctx.query.isTwoSeat === "1";
-        const isTwoPlusTwo = ctx.query.isTwoPlusTwo === "1";
-        const isThreeSeat = ctx.query.isThreeSeat === "1";
-        const isFourSeat = ctx.query.isFourSeat === "1";
-        const isFiveSeat = ctx.query.isFiveSeat === "1";
-        const isSixSeat = ctx.query.isSixSeat === "1";
-        const isSevenSeat = ctx.query.isSevenSeat === "1";
-        const isEightSeat = ctx.query.isEightSeat === "1";
-        const isNineSeat = ctx.query.isNineSeat === "1";
-        const isNinePlusSeat = ctx.query.isNinePlusSeat === "1";
-
-        // Check if brands is a string and try to parse it as JSON
-        if (typeof brands === "string") {
-          try {
-            brands = JSON.parse(brands);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for brands");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!brands || !Array.isArray(brands) || brands.length === 0) {
-          brands = null;
-        }
-
-        if (typeof bodyTypes === "string") {
-          try {
-            bodyTypes = JSON.parse(bodyTypes);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for bodyTypes");
-          }
-        }
-
-        // If bodyTypes is not provided or is an empty array, handle accordingly in the service
-        if (!bodyTypes || !Array.isArray(bodyTypes) || bodyTypes.length === 0) {
-          bodyTypes = null;
-        }
-
-        if (typeof cylinders === "string") {
-          try {
-            cylinders = JSON.parse(cylinders);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for cylinders");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!cylinders || !Array.isArray(cylinders) || cylinders.length === 0) {
-          cylinders = null;
-        }
-
-        if (typeof fuelType === "string") {
-          try {
-            fuelType = JSON.parse(fuelType);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for fuelType");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!fuelType || !Array.isArray(fuelType) || fuelType.length === 0) {
-          fuelType = null;
-        }
-
-        if (typeof drive === "string") {
-          try {
-            drive = JSON.parse(drive);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for drive");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!drive || !Array.isArray(drive) || drive.length === 0) {
-          drive = null;
-        }
-
-        if (typeof transmission === "string") {
-          try {
-            transmission = JSON.parse(transmission);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for transmission");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (
-          !transmission ||
-          !Array.isArray(transmission) ||
-          transmission.length === 0
-        ) {
-          transmission = null;
-        }
-
-        // Parse and validate priceRanges if it's a string
-        if (typeof priceRanges === "string") {
-          try {
-            priceRanges = JSON.parse(priceRanges);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for priceRanges");
-          }
-        }
-
-        // Parse and validate displacementRanges and powerRanges
-        if (typeof displacementRanges === "string") {
-          displacementRanges = JSON.parse(displacementRanges);
-        }
-        if (typeof powerRanges === "string") {
-          powerRanges = JSON.parse(powerRanges);
-        }
-
-        const priceRange = await strapi.services[
-          "api::car-trim.car-trim"
-        ].getDisplacementRange(
-          brands,
-          bodyTypes,
-          cylinders,
-          fuelType,
-          drive,
-          priceRanges,
-          displacementRanges,
-          powerRanges,
-          transmission,
-          haveMusic,
-          isLuxury,
-          isPremiumLuxury,
-          haveTechnology,
-          havePerformance,
-          isSpacious,
-          isElectric,
-          isFuelEfficient,
-          isOffRoad,
-          isManualTransmission,
-          isAffordableLuxury,
-          isDuneBashing,
-          isSafety,
-
-          isOneSeat,
-          isTwoPlusTwo,
-          isTwoSeat,
-          isThreeSeat,
-          isFourSeat,
-          isFiveSeat,
-          isSixSeat,
-          isSevenSeat,
-          isEightSeat,
-          isNineSeat,
-          isNinePlusSeat
-        );
-        ctx.body = priceRange;
+        const params = extractQueryParams(ctx);
+        const result = await strapi.services["api::car-trim.car-trim"].getDisplacementRange(params);
+        ctx.body = result;
       } catch (err) {
         ctx.throw(500, err);
       }
@@ -2244,184 +720,14 @@ module.exports = createCoreController(
 
     async getSeatList(ctx) {
       try {
-        let brands = ctx.query.brands;
-        let bodyTypes = ctx.query.bodyTypes;
-        let fuelType = ctx.query.fuelType;
-        let cylinders = ctx.query.cylinders;
-        let drive = ctx.query.drive;
-        let transmission = ctx.query.transmission;
-        let priceRanges = ctx.query.priceRanges;
-        let displacementRanges = ctx.query.displacementRanges;
-        let powerRanges = ctx.query.powerRanges;
-        const haveMusic = ctx.query.haveMusic;
-        const isLuxury = ctx.query.isLuxury;
-        const isPremiumLuxury = ctx.query.isPremiumLuxury;
-        const haveTechnology = ctx.query.haveTechnology;
-        const havePerformance = ctx.query.havePerformance;
-        const isSpacious = ctx.query.isSpacious;
-        const isElectric = ctx.query.isElectric;
-        const isFuelEfficient = ctx.query.isFuelEfficient;
-        const isOffRoad = ctx.query.isOffRoad;
-        const isManualTransmission = ctx.query.isManualTransmission;
-        const isAffordableLuxury = ctx.query.isAffordableLuxury;
-        const isSafety = ctx.query.isSafety;
-        const isDuneBashing = ctx.query.isDuneBashing;
-        const isOneSeat = ctx.query.isOneSeat === "1";
-        const isTwoSeat = ctx.query.isTwoSeat === "1";
-        const isTwoPlusTwo = ctx.query.isTwoPlusTwo === "1";
-        const isThreeSeat = ctx.query.isThreeSeat === "1";
-        const isFourSeat = ctx.query.isFourSeat === "1";
-        const isFiveSeat = ctx.query.isFiveSeat === "1";
-        const isSixSeat = ctx.query.isSixSeat === "1";
-        const isSevenSeat = ctx.query.isSevenSeat === "1";
-        const isEightSeat = ctx.query.isEightSeat === "1";
-        const isNineSeat = ctx.query.isNineSeat === "1";
-        const isNinePlusSeat = ctx.query.isNinePlusSeat === "1";
-
-        console.log(isDuneBashing, "isDuneBashing");
-
-        // Check if brands is a string and try to parse it as JSON
-        if (typeof brands === "string") {
-          try {
-            brands = JSON.parse(brands);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for brands");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!brands || !Array.isArray(brands) || brands.length === 0) {
-          brands = null;
-        }
-
-        if (typeof bodyTypes === "string") {
-          try {
-            bodyTypes = JSON.parse(bodyTypes);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for bodyTypes");
-          }
-        }
-
-        // If bodyTypes is not provided or is an empty array, handle accordingly in the service
-        if (!bodyTypes || !Array.isArray(bodyTypes) || bodyTypes.length === 0) {
-          bodyTypes = null;
-        }
-
-        if (typeof cylinders === "string") {
-          try {
-            cylinders = JSON.parse(cylinders);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for cylinders");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!cylinders || !Array.isArray(cylinders) || cylinders.length === 0) {
-          cylinders = null;
-        }
-
-        if (typeof fuelType === "string") {
-          try {
-            fuelType = JSON.parse(fuelType);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for fuelType");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!fuelType || !Array.isArray(fuelType) || fuelType.length === 0) {
-          fuelType = null;
-        }
-
-        if (typeof drive === "string") {
-          try {
-            drive = JSON.parse(drive);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for drive");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (!drive || !Array.isArray(drive) || drive.length === 0) {
-          drive = null;
-        }
-
-        if (typeof transmission === "string") {
-          try {
-            transmission = JSON.parse(transmission);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for transmission");
-          }
-        }
-
-        // If brands is not provided or is an empty array, handle accordingly in the service
-        if (
-          !transmission ||
-          !Array.isArray(transmission) ||
-          transmission.length === 0
-        ) {
-          transmission = null;
-        }
-
-        // Parse and validate priceRanges if it's a string
-        if (typeof priceRanges === "string") {
-          try {
-            priceRanges = JSON.parse(priceRanges);
-          } catch (err) {
-            return ctx.badRequest("Invalid format for priceRanges");
-          }
-        }
-
-        // Parse and validate displacementRanges and powerRanges
-        if (typeof displacementRanges === "string") {
-          displacementRanges = JSON.parse(displacementRanges);
-        }
-        if (typeof powerRanges === "string") {
-          powerRanges = JSON.parse(powerRanges);
-        }
-
-        const priceRange = await strapi.services[
-          "api::car-trim.car-trim"
-        ].getSeatList(
-          brands,
-          bodyTypes,
-          cylinders,
-          fuelType,
-          drive,
-          priceRanges,
-          displacementRanges,
-          powerRanges,
-          transmission,
-          haveMusic,
-          isLuxury,
-          isPremiumLuxury,
-          haveTechnology,
-          havePerformance,
-          isSpacious,
-          isElectric,
-          isFuelEfficient,
-          isOffRoad,
-          isManualTransmission,
-          isAffordableLuxury,
-          isDuneBashing,
-          isSafety,
-          isOneSeat,
-          isTwoPlusTwo,
-          isTwoSeat,
-          isThreeSeat,
-          isFourSeat,
-          isFiveSeat,
-          isSixSeat,
-          isSevenSeat,
-          isEightSeat,
-          isNineSeat,
-          isNinePlusSeat
-        );
-        ctx.body = priceRange;
+        const params = extractQueryParams(ctx);
+        const result = await strapi.services["api::car-trim.car-trim"].getSeatList(params);
+        ctx.body = result;
       } catch (err) {
         ctx.throw(500, err);
       }
     },
+
 
     async fetchCarTrims(ctx) {
       try {
@@ -2466,7 +772,7 @@ module.exports = createCoreController(
 
         let filters = {
           $and: [
-            { year: { $gte: new Date().getFullYear() } }, // Default filter for year
+            { year: { $gte: new Date().getFullYear() - 1 } }, // Default filter for year
             { price: { $gte: 0 } }, // Default filter for price
             { highTrim: true }, // Default filter for highTrim
             { publishedAt: { $ne: null } },
@@ -2503,62 +809,42 @@ module.exports = createCoreController(
         });
 
         // Format response
-        const formattedResults = await Promise.all(
-          results.map(async (entity) => {
-            // Format each car trim entity as needed
-            const trims = await strapi.entityService.findMany(
-              "api::car-trim.car-trim",
-              {
-                filters: {
-                  car_models: entity.car_models[0].id,
-                  year: { $gte: new Date().getFullYear() },
-                  price: { $gt: 0 },
-                },
-                fields: ["price"],
+        const formattedResults = results.map((entity) => {
+          // Format each car trim entity as needed
+          return {
+            id: entity.id,
+            name: entity.name,
+            slug: entity.slug,
+            brand: entity.car_brands[0]
+              ? {
+                name: entity.car_brands[0].name,
+                slug: entity.car_brands[0].slug,
+                logo: entity.car_brands[0].brandLogo
+                  ? entity.car_brands[0].brandLogo.url
+                  : null,
               }
-            );
-
-            const prices = trims
-              .map((trim) => trim.price)
-              .filter((price) => price != null);
-            const minPrice = prices.length ? Math.min(...prices) : null;
-            const maxPrice = prices.length ? Math.max(...prices) : null;
-
-            return {
-              id: entity.id,
-              name: entity.name,
-              slug: entity.slug,
-              brand: entity.car_brands[0]
-                ? {
-                  name: entity.car_brands[0].name,
-                  slug: entity.car_brands[0].slug,
-                  logo: entity.car_brands[0].brandLogo
-                    ? entity.car_brands[0].brandLogo.url
-                    : null,
-                }
-                : null,
-              model: entity.car_models[0]
-                ? {
-                  name: entity.car_models[0].name,
-                  slug: entity.car_models[0].slug,
-                  year: entity.car_models[0].year,
-                }
-                : null,
-              featuredImage: entity.featuredImage
-                ? entity.featuredImage?.formats?.thumbnail?.url
-                : null,
-              year: entity.year,
-              price: entity.price,
-              power: entity.power,
-              displacement: entity.displacement,
-              transmission: entity.transmission,
-              cylinders: entity.cylinders,
-              bodyType: entity.car_body_types[0].name,
-              minPrice, // Include the calculated min price
-              maxPrice, // Include the calculated max price
-            };
-          })
-        );
+              : null,
+            model: entity.car_models[0]
+              ? {
+                name: entity.car_models[0].name,
+                slug: entity.car_models[0].slug,
+                year: entity.car_models[0].year,
+              }
+              : null,
+            featuredImage: entity.featuredImage
+              ? entity.featuredImage?.formats?.thumbnail?.url
+              : null,
+            year: entity.year,
+            price: entity.price,
+            power: entity.power,
+            displacement: entity.displacement,
+            transmission: entity.transmission,
+            cylinders: entity.cylinders,
+            bodyType: entity.car_body_types[0].name,
+            minPrice: entity.price, // Use the entity's own price
+            maxPrice: entity.price, // Use the entity's own price
+          };
+        });
 
         // Return response with pagination
         ctx.body = {
@@ -2651,7 +937,7 @@ module.exports = createCoreController(
 
         let filters = {
           $and: [
-            { year: { $gte: new Date().getFullYear() } }, // Default filter for year
+            { year: { $gte: new Date().getFullYear() - 1 } }, // Default filter for year (current year and last year)
             {
               $or: [
                 { price: { $gt: 0 } }, // Include cars with price greater than 0
@@ -2706,16 +992,6 @@ module.exports = createCoreController(
           ],
         };
 
-        // Debugging information
-        console.log("Filters:", filters);
-
-        const allFilteredCars = await strapi.entityService.findMany(
-          "api::car-trim.car-trim",
-          {
-            filters,
-          }
-        );
-
         const { results, total } = await strapi.services[
           "api::car-trim.car-trim"
         ].findhomeFilterWithPagination({
@@ -2725,83 +1001,61 @@ module.exports = createCoreController(
           sort,
         });
 
-        console.log("Results:", results);
+        const formattedResults = results.map((entity) => {
+          const carModelId =
+            entity.car_models && entity.car_models.length > 0
+              ? entity.car_models[0].id
+              : null;
+          const carBrand =
+            entity.car_brands && entity.car_brands.length > 0
+              ? entity.car_brands[0]
+              : null;
 
-        const formattedResults = await Promise.all(
-          results.map(async (entity) => {
-            const carModelId =
-              entity.car_models && entity.car_models.length > 0
-                ? entity.car_models[0].id
-                : null;
-            const carBrand =
-              entity.car_brands && entity.car_brands.length > 0
-                ? entity.car_brands[0]
-                : null;
-
-            if (!carModelId || !carBrand) {
-              console.warn(
-                "Skipping entity due to missing car_models or car_brands:",
-                entity
-              );
-              return null;
-            }
-
-            const trims = await strapi.entityService.findMany(
-              "api::car-trim.car-trim",
-              {
-                filters: {
-                  car_models: carModelId,
-                  year: { $gte: new Date().getFullYear() },
-                  price: { $gt: 0 },
-                },
-                fields: ["price"],
-              }
+          if (!carModelId || !carBrand) {
+            console.warn(
+              "Skipping entity due to missing car_models or car_brands:",
+              entity
             );
+            return null;
+          }
 
-            const prices = trims
-              .map((trim) => trim.price)
-              .filter((price) => price != null);
-            const minPrice = prices.length ? Math.min(...prices) : null;
-            const maxPrice = prices.length ? Math.max(...prices) : null;
-
-            return {
-              id: entity.id,
-              seats: entity.seating_capacity,
-              name: entity.name,
-              slug: entity.slug,
-              brand: {
-                name: carBrand.name,
-                slug: carBrand.slug,
-                logo: carBrand.brandLogo ? carBrand.brandLogo.url : null,
-              },
-              model: {
-                name: entity.car_models[0].name,
-                slug: entity.car_models[0].slug,
-                year: entity.car_models[0].year,
-              },
-              featuredImage: entity?.featuredImage ? {
-                url: entity?.featuredImage?.formats?.thumbnail?.url,
-                ext: entity?.featuredImage?.formats?.thumbnail?.ext,
-                mime: entity?.featuredImage?.formats?.thumbnail?.mime,
-                size: entity?.featuredImage?.formats?.thumbnail?.size,
-                width: entity?.featuredImage?.formats?.thumbnail?.width,
-                height: entity?.featuredImage?.formats?.thumbnail?.height
-              } : null,
-              year: entity.year,
-              price: entity.price,
-              power: entity.power,
-              displacement: entity.displacement,
-              transmission: entity.transmission,
-              cylinders: entity.cylinders,
-              bodyType: entity.car_body_types[0].name,
-              minPrice,
-              maxPrice,
-              seatingCapacity: entity.seatingCapacity,
-              engine: entity.engine,
-              torque: entity.torque,
-            };
-          })
-        );
+          return {
+            id: entity.id,
+            seats: entity.seating_capacity,
+            name: entity.name,
+            slug: entity.slug,
+            brand: {
+              name: carBrand.name,
+              slug: carBrand.slug,
+              logo: carBrand.brandLogo ? carBrand.brandLogo.url : null,
+            },
+            model: {
+              name: entity.car_models[0].name,
+              slug: entity.car_models[0].slug,
+              year: entity.car_models[0].year,
+            },
+            featuredImage: entity?.featuredImage ? {
+              url: entity?.featuredImage?.formats?.thumbnail?.url,
+              ext: entity?.featuredImage?.formats?.thumbnail?.ext,
+              mime: entity?.featuredImage?.formats?.thumbnail?.mime,
+              size: entity?.featuredImage?.formats?.thumbnail?.size,
+              width: entity?.featuredImage?.formats?.thumbnail?.width,
+              height: entity?.featuredImage?.formats?.thumbnail?.height
+            } : null,
+            year: entity.year,
+            price: entity.price,
+            power: entity.power,
+            displacement: entity.displacement,
+            transmission: entity.transmission,
+            cylinders: entity.cylinders,
+            bodyType: entity.car_body_types[0].name,
+            minPrice: entity.price,
+            maxPrice: entity.price,
+            seatingCapacity: entity.seatingCapacity,
+            engine: entity.engine,
+            torque: entity.torque,
+          };
+        });
 
         const validFormattedResults = formattedResults.filter(
           (result) => result !== null
@@ -2818,7 +1072,7 @@ module.exports = createCoreController(
               pageCount: Math.ceil(total / pageSize),
               total,
             },
-            totalFilteredCars: allFilteredCars.length,
+            totalFilteredCars: total,
           },
         };
       } catch (error) {

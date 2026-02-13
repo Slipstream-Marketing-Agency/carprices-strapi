@@ -69,7 +69,7 @@ module.exports = createCoreController(
 
         let filters = {
           $and: [
-            { year: { $gte: new Date().getFullYear() } }, // Default filter for year
+            { year: { $gte: new Date().getFullYear() - 1 } }, // Default filter for year
             {
               $or: [
                 { price: { $gt: 0 } }, // Include cars with price greater than 0
@@ -96,81 +96,61 @@ module.exports = createCoreController(
 
         console.log("Results:", results);
 
-        const formattedResults = await Promise.all(
-          results.map(async (entity) => {
-            const carModelId =
-              entity.car_models && entity.car_models.length > 0
-                ? entity.car_models[0].id
-                : null;
-            const carBrand =
-              entity.car_brands && entity.car_brands.length > 0
-                ? entity.car_brands[0]
-                : null;
+        const formattedResults = results.map((entity) => {
+          const carModelId =
+            entity.car_models && entity.car_models.length > 0
+              ? entity.car_models[0].id
+              : null;
+          const carBrand =
+            entity.car_brands && entity.car_brands.length > 0
+              ? entity.car_brands[0]
+              : null;
 
-            if (!carModelId || !carBrand) {
-              console.warn(
-                "Skipping entity due to missing car_models or car_brands:",
-                entity
-              );
-              return null;
-            }
-
-            const trims = await strapi.entityService.findMany(
-              "api::car-trim.car-trim",
-              {
-                filters: {
-                  car_models: carModelId,
-                  year: { $gte: new Date().getFullYear() },
-                  price: { $gt: 0 },
-                },
-                fields: ["price"],
-              }
+          if (!carModelId || !carBrand) {
+            console.warn(
+              "Skipping entity due to missing car_models or car_brands:",
+              entity
             );
+            return null;
+          }
 
-            const prices = trims
-              .map((trim) => trim.price)
-              .filter((price) => price != null);
-            const minPrice = prices.length ? Math.min(...prices) : null;
-            const maxPrice = prices.length ? Math.max(...prices) : null;
-
-            return {
-              id: entity.id,
-              seats: entity.seating_capacity,
-              name: entity.name,
-              slug: entity.slug,
-              brand: {
-                name: carBrand.name,
-                slug: carBrand.slug,
-                logo: carBrand.brandLogo ? carBrand.brandLogo.url : null,
-              },
-              model: {
-                name: entity.car_models[0].name,
-                slug: entity.car_models[0].slug,
-                year: entity.car_models[0].year,
-              },
-              featuredImage: entity?.featuredImage ? {
-                url: entity?.featuredImage?.formats?.thumbnail?.url,
-                ext: entity?.featuredImage?.formats?.thumbnail?.ext,
-                mime: entity?.featuredImage?.formats?.thumbnail?.mime,
-                size: entity?.featuredImage?.formats?.thumbnail?.size,
-                width: entity?.featuredImage?.formats?.thumbnail?.width,
-                height: entity?.featuredImage?.formats?.thumbnail?.height
-              } : null,
-              year: entity.year,
-              price: entity.price,
-              power: entity.power,
-              displacement: entity.displacement,
-              transmission: entity.transmission,
-              cylinders: entity.cylinders,
-              bodyType: entity.car_body_types[0].name,
-              minPrice,
-              maxPrice,
-              seatingCapacity: entity.seatingCapacity,
-              engine: entity.engine,
-              torque: entity.torque,
-            };
-          })
-        );
+          return {
+            id: entity.id,
+            seats: entity.seating_capacity,
+            name: entity.name,
+            slug: entity.slug,
+            brand: {
+              name: carBrand.name,
+              slug: carBrand.slug,
+              logo: carBrand.brandLogo ? carBrand.brandLogo.url : null,
+            },
+            model: {
+              name: entity.car_models[0].name,
+              slug: entity.car_models[0].slug,
+              year: entity.car_models[0].year,
+            },
+            featuredImage: entity?.featuredImage ? {
+              url: entity?.featuredImage?.formats?.thumbnail?.url,
+              ext: entity?.featuredImage?.formats?.thumbnail?.ext,
+              mime: entity?.featuredImage?.formats?.thumbnail?.mime,
+              size: entity?.featuredImage?.formats?.thumbnail?.size,
+              width: entity?.featuredImage?.formats?.thumbnail?.width,
+              height: entity?.featuredImage?.formats?.thumbnail?.height
+            } : null,
+            year: entity.year,
+            price: entity.price,
+            power: entity.power,
+            displacement: entity.displacement,
+            transmission: entity.transmission,
+            cylinders: entity.cylinders,
+            bodyType: entity.car_body_types[0].name,
+            minPrice: entity.price,
+            maxPrice: entity.price,
+            seatingCapacity: entity.seatingCapacity,
+            engine: entity.engine,
+            torque: entity.torque,
+          };
+        });
 
         const validFormattedResults = formattedResults.filter(
           (result) => result !== null

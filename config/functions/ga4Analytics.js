@@ -2,9 +2,18 @@ require('dotenv').config();
 const { BetaAnalyticsDataClient } = require('@google-analytics/data');
 
 // Initialize the GA4 Data API client with credentials from environment variables
-const analyticsDataClient = new BetaAnalyticsDataClient({
-    credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON),
-});
+let analyticsDataClient = null;
+if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) {
+    try {
+        analyticsDataClient = new BetaAnalyticsDataClient({
+            credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON),
+        });
+    } catch (error) {
+        console.warn('Failed to initialize GA4 Analytics client:', error.message);
+    }
+} else {
+    console.warn('GOOGLE_APPLICATION_CREDENTIALS_JSON not found in environment variables. GA4 analytics will be disabled.');
+}
 
 const propertyId = process.env.GA4_PROPERTY_ID; // Your GA4 Property ID, e.g., '123456789'
 
@@ -16,6 +25,11 @@ function threeMonthsAgo() {
 }
 
 async function fetchPageViews() {
+    if (!analyticsDataClient) {
+        console.warn('GA4 Analytics client not initialized. Returning empty page views.');
+        return [];
+    }
+
     const startDate = threeMonthsAgo();
     const endDate = new Date().toISOString().split('T')[0]; // Today's date in 'YYYY-MM-DD' format
 
