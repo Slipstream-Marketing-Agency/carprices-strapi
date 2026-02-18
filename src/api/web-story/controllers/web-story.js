@@ -21,10 +21,8 @@ module.exports = createCoreController(
             coverImage: true, // Ensure cover image is populated
             storyPage: { populate: ["image"] }, // Populate the story page and its image
           },
-          pagination: {
-            page: parseInt(page, 10),
-            pageSize: parseInt(pageSize, 10),
-          },
+          limit: parseInt(pageSize, 10),
+          start: (parseInt(page, 10) - 1) * parseInt(pageSize, 10),
           sort,
         }
       );
@@ -65,6 +63,8 @@ module.exports = createCoreController(
           filters: {
             article_categories: { slug }, // Properly filter stories by related category slug
           },
+          limit: 20,
+          start: 0,
           populate: {
             coverImage: true, // Populate coverImage
             storyPage: true, // Populate storyPage (in case there are story pages)
@@ -86,6 +86,8 @@ module.exports = createCoreController(
           filters: {
             article_tags: { slug }, // Filter stories by related tag slug
           },
+          limit: 20,
+          start: 0,
           populate: {
             coverImage: true, // Populate coverImage
             storyPage: { populate: ["image"] }, // Populate storyPage
@@ -161,8 +163,9 @@ module.exports = createCoreController(
 
     async findPopularTags(ctx) {
       const tags = await strapi.entityService.findMany("api::tag.tag", {
+        limit: 50,
         populate: {
-          web_stories: true, // Assuming web_stories is the relation in the tag content type
+          web_stories: { fields: ['id'] }, // Only need count, not full story data
         },
       });
 

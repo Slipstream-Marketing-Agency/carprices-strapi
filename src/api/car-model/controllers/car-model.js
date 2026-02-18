@@ -330,7 +330,9 @@ module.exports = createCoreController(
           .findOne({
             where: { slug: slug },
             populate: {
-              car_trims: true,
+              car_trims: {
+                select: ['year'],
+              },
             },
           });
 
@@ -385,40 +387,36 @@ module.exports = createCoreController(
 
         // Step 2: Fetch models associated with each brand if the search term matches a brand
         if (brands.length > 0) {
-          for (const brand of brands) {
-            const brandModels = await strapi.db
-              .query("api::car-model.car-model")
-              .findMany({
-                where: {
-                  car_brands: brand.id,
-                },
-                populate: ["car_brands", "car_trims"],
-                limit: 16, // Limit the number of models fetched for each brand
-                orderBy: [
-                  { year: "desc" }, // Assuming 'year' is a column in your 'car-model' table
-                  { name: "asc" },
-                ],
-              });
-
-            // Format the model data to include brand and the highest trim year
-            const formattedBrandModels = brandModels.map((model) => {
-              const highestTrimYear = model.car_trims.reduce(
-                (max, trim) => (trim.year > max ? trim.year : max),
-                0
-              );
-              return {
-                type: "model",
-                id: model.id,
-                name: model.name,
-                slug: model.slug,
-                brand: model.car_brands[0].name,
-                brandSlug: model.car_brands[0].slug || "N/A",
-                year: highestTrimYear,
-              };
+          const brandIds = brands.map(brand => brand.id);
+          const brandModels = await strapi.db
+            .query("api::car-model.car-model")
+            .findMany({
+              where: {
+                car_brands: { id: { $in: brandIds } },
+              },
+              populate: ["car_brands", "car_trims"],
+              limit: 16,
+              orderBy: [
+                { year: "desc" },
+                { name: "asc" },
+              ],
             });
 
-            models = models.concat(formattedBrandModels);
-          }
+          models = brandModels.map((model) => {
+            const highestTrimYear = model.car_trims.reduce(
+              (max, trim) => (trim.year > max ? trim.year : max),
+              0
+            );
+            return {
+              type: "model",
+              id: model.id,
+              name: model.name,
+              slug: model.slug,
+              brand: model.car_brands[0].name,
+              brandSlug: model.car_brands[0].slug || "N/A",
+              year: highestTrimYear,
+            };
+          });
         }
 
         // Step 3: If no brand matches, search in car models with a similar limit
@@ -606,7 +604,6 @@ module.exports = createCoreController(
 
         return customResponse; // Return the custom response
       } catch (error) {
-        console.log(error, "errorerrorerror");
         ctx.badRequest("Error occurred", error);
       }
     },
@@ -655,8 +652,6 @@ module.exports = createCoreController(
           return ctx.notFound("Car model not found");
         }
 
-        console.log(model, "model model ");
-
         // Step 2: Filter car_trims based on the provided year
         const filteredTrims = model.car_trims
           .filter((trim) => trim.year === targetYear && trim.price > 0)
@@ -683,7 +678,6 @@ module.exports = createCoreController(
 
         return customResponse; // Return the custom response with filtered trims
       } catch (error) {
-        console.log(error, "errorerrorerror");
         ctx.badRequest("Error occurred", error);
       }
     },
@@ -711,6 +705,7 @@ module.exports = createCoreController(
             car_brands: { id: brand.id }, // Filter by the brand ID
             select_related_videos: { id: { $notNull: true } } // Ensure the model has at least one related video
           },
+          limit: 50,
           populate: {
             select_related_videos: true, // Populate the relation with car videos to confirm they exist
           },

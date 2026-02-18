@@ -114,6 +114,7 @@ module.exports = createCoreController(
             })),
           },
           populate: ["brandLogo"],
+          limit: 10,
         });
   
         // Search in car models
@@ -125,7 +126,22 @@ module.exports = createCoreController(
               },
             })),
           },
-          populate: ["featuredImage", "car_brands"],
+          populate: ["featuredImage", "car_brands", "car_trims"],
+          limit: 10,
+        });
+
+        // Enrich models with latest year from their trims
+        const enrichedModels = modelResults.map((model) => {
+          const trims = model.car_trims || [];
+          const latestYear = trims.reduce((max, trim) => {
+            return trim.year > max ? trim.year : max;
+          }, 0);
+          // Remove car_trims from output to keep response small
+          const { car_trims, ...modelWithoutTrims } = model;
+          return {
+            ...modelWithoutTrims,
+            latestYear: latestYear || null,
+          };
         });
   
         // Search in car trims, including car brand and model names
@@ -138,6 +154,7 @@ module.exports = createCoreController(
             })),
           },
           populate: ["featuredImage", "car_brands", "car_models"],
+          limit: 10,
         });
   
         // Sanitize and format trim results
@@ -175,7 +192,7 @@ module.exports = createCoreController(
         // Combine and return results
         ctx.send({
           brands: brandResults,
-          models: modelResults,
+          models: enrichedModels,
           trims: groupedResults,
         });
       } catch (error) {
@@ -240,8 +257,6 @@ module.exports = createCoreController(
           },
         });
 
-        console.log(entity, "entityentity");
-
         if (!entity) {
           return ctx.notFound("Car Trim not found");
         }
@@ -256,6 +271,7 @@ module.exports = createCoreController(
               },
               year: filterYear, // Filter by the same year
             },
+            limit: 6,
             populate: {
               featuredImage: true,
             },
@@ -377,7 +393,6 @@ module.exports = createCoreController(
 
         return customResponse; // Return the custom response
       } catch (error) {
-        console.log(error, "errorerrorerror");
         ctx.badRequest("Error occurred", error);
       }
     },
@@ -1098,8 +1113,6 @@ module.exports = createCoreController(
             limit: 10, // Limit the number of results to 10
           });
 
-        console.log(entities, "entities");
-
         const trimsList = entities.map((entity) => {
           return {
             trimSlug: entity.slug,
@@ -1224,8 +1237,6 @@ module.exports = createCoreController(
         const { slug } = ctx.params;
         const slugs = slug.split("-vs-"); // Split slugs by '-vs-'
 
-        console.log(slugs, "Parsed Slugs");
-
         // if (slugs.length < 2) {
         //   return ctx.badRequest(
         //     "At least two car trims must be provided for comparison."
@@ -1258,8 +1269,6 @@ module.exports = createCoreController(
               },
             },
           });
-
-        console.log(carTrims, "Fetched Car Trims");
 
         if (!carTrims || carTrims.length === 0) {
           return ctx.notFound("No car trims found for the given slugs.");
@@ -1372,7 +1381,6 @@ module.exports = createCoreController(
       }
     },
     async getBrandsByYear(ctx) {
-      console.log("getBrandsByYear function called with params:", ctx.params);
       const { year } = ctx.params;
       const slug = ctx.query.slug || null;
 
@@ -1393,6 +1401,7 @@ module.exports = createCoreController(
               },
             }),
           },
+          limit: 200,
           populate: {
             car_brands: {
               fields: ['id', 'name', 'slug'],
@@ -1461,8 +1470,6 @@ module.exports = createCoreController(
           where: { slug: brandSlug, publishedAt: { $ne: null } },
         });
 
-        console.log('Fetched Brand:', brand);
-
         if (!brand) {
           ctx.body = [];
           return;
@@ -1496,8 +1503,6 @@ module.exports = createCoreController(
 
         // Fetch trims with the query, either all or filtered by modelSlug and search term
         const trims = await strapi.db.query('api::car-trim.car-trim').findMany(trimQuery);
-
-        console.log('Fetched Trims:', trims);
 
         if (modelSlug) {
           // If modelSlug is provided, return only the specific model's data
@@ -1539,8 +1544,6 @@ module.exports = createCoreController(
               .map(model => [model.id, model])
           ).values(),
         ];
-
-        console.log('Unique Models:', uniqueModels);
 
         // Get the total count of trims for the specified year, brand, and search term
         const totalTrims = await strapi.db.query('api::car-trim.car-trim').count({
@@ -1763,7 +1766,6 @@ module.exports = createCoreController(
       }
     },
     async getHighTrimsByYearAndBrand(ctx) {
-      console.log("getHighTrimsByYearAndBrand function called with:", ctx.params);
       const { year, brand } = ctx.params;
 
       try {
@@ -1778,6 +1780,7 @@ module.exports = createCoreController(
             publishedAt: { $ne: null }, // Only fetch published trims
             car_brands: { name: formattedBrand }, // Use formatted brand name for case match
           },
+          limit: 100,
           populate: {
             car_brands: {
               fields: ['name', 'slug'],
@@ -1790,8 +1793,6 @@ module.exports = createCoreController(
           name: trim.name,
           slug: trim.slug,
         }));
-
-        console.log("Filtered query results (name and slug only):", filteredHighTrims);
 
         // Return results or empty array
         ctx.body = {

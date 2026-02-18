@@ -154,9 +154,6 @@ module.exports = createCoreController('api::car-video.car-video', ({ strapi }) =
                 populate: {
                     thumbnail: true,
                     hostedVideo: true,
-                    select_related_articles: true,
-                    select_related_models: true,
-                    select_related_brands: true,
                 },
             });
 

@@ -81,7 +81,7 @@ module.exports = ({ env }) => ({
     resolve: './src/plugins/all-cars-list'
   },
   'rest-cache': {
-    enabled: false,
+    enabled: true,
     config: {
       provider: {
         name: "memory",
@@ -124,7 +124,7 @@ module.exports = ({ env }) => ({
     },
   },
   'cache': {
-    enabled: false,
+    enabled: true,
     resolve: './src/plugins/cache'
   },
 });

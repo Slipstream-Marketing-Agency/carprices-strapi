@@ -83,7 +83,6 @@ module.exports = createCoreController(
         };
 
         // Debugging information
-        console.log("Filters:", filters);
 
         const { results, total } = await strapi.services[
           "api::car-trim.car-trim"
@@ -93,8 +92,6 @@ module.exports = createCoreController(
           pageSize,
           sort,
         });
-
-        console.log("Results:", results);
 
         const formattedResults = results.map((entity) => {
           const carModelId =
@@ -331,6 +328,7 @@ module.exports = createCoreController(
       try {
         // Fetch car brands that have related dealers under the specified branch
         const brands = await strapi.entityService.findMany('api::car-brand.car-brand', {
+          limit: 100,
           filters: {
             selected_related_dealers: {
               dealer_branch: {
@@ -489,11 +487,11 @@ module.exports = createCoreController(
               brandLogo: true,
               coverImage: true,
               car_models: {
+                select: ['name', 'slug'],
                 populate: {
                   car_trims: {
-                    populate: {
-                      car_body_types: true, // Assuming this is how you access body types, adjust as needed
-                    },
+                    select: ['name', 'slug', 'year', 'highTrim'],
+                    limit: 5,
                   },
                 },
               },
@@ -699,8 +697,9 @@ module.exports = createCoreController(
               },
             },
           },
+          limit: 50,
           populate: {
-            select_related_videos: true, // Populate the relation with car videos to ensure they exist
+            select_related_videos: { select: ['id'] }, // Only need to check existence
           },
         });
 
@@ -733,8 +732,9 @@ module.exports = createCoreController(
                 },
               },
             },
+            limit: 50,
             populate: {
-              selected_related_dealers: true, // Populate the relation with car dealers
+              selected_related_dealers: { select: ['id'] }, // Only need to check existence
             },
             orderBy: {
               name: "asc", // Sort brands by name in ascending order

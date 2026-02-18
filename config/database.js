@@ -14,7 +14,7 @@ module.exports = ({ env }) => {
         port: env.int("DATABASE_PORT", 5432),
         database: env("DATABASE_NAME", "postgres"),
         user: env("DATABASE_USERNAME", "postgres"),
-        password: env("DATABASE_PASSWORD", "0DGLS2XA1GELNHVK66H"),
+        password: env("DATABASE_PASSWORD"),
         ssl: env.bool("DATABASE_SSL", true) ? { rejectUnauthorized: false } : false,
         schema: env("DATABASE_SCHEMA", "public"),
         acquireTimeoutMillis: 60000, // Connection acquisition timeout

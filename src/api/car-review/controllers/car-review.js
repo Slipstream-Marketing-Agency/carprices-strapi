@@ -15,7 +15,6 @@ module.exports = createCoreController('api::car-review.car-review', ({ strapi })
             const userId = ctx.state.user?.id;
 
             if (!userId) {
-                console.log('ctx.state:', ctx.state); // Log the full context to troubleshoot
                 return ctx.badRequest('User ID not found in context');
             }
 
@@ -65,8 +64,11 @@ module.exports = createCoreController('api::car-review.car-review', ({ strapi })
             // Find all reviews for the specified car model by ID
             const reviews = await strapi.db.query('api::car-review.car-review').findMany({
                 where: { car_model: carModel.id },
+                limit: 20,
                 populate: {
-                    users_permissions_user: true, // Populate user info if needed
+                    users_permissions_user: {
+                        select: ['username'], // Don't expose email/password
+                    },
                     car_model: true,
                 },
             });

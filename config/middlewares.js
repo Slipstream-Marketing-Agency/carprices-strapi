@@ -1,6 +1,15 @@
 module.exports = [
   "strapi::errors",
   {
+    name: "global::rate-limiter",
+    config: {
+      interval: 60 * 1000, // 1 minute
+      max: 100, // 100 requests per minute per IP
+      delayAfter: 50, // Start adding delay after 50 requests
+      prefixKey: "rl_",
+    },
+  },
+  {
     name: "strapi::security",
     config: {
       contentSecurityPolicy: {
@@ -54,17 +63,19 @@ module.exports = [
     name: "strapi::body",
     config: {
       formLimit: "2mb",
-      jsonLimit: "100mb",
+      jsonLimit: "5mb",
     },
   },
-  {
-    name: "strapi::compression",
-    config: {
-      threshold: 1024, // Compress responses over 1 KB
-      gzip: true,
-      br: true, // Enable Brotli compression if supported
-    },
-  },
+  // Compression disabled — causes issues with Node.js server-side fetch (undici)
+  // decompression. Re-enable behind a reverse proxy (e.g., Nginx) in production.
+  // {
+  //   name: "strapi::compression",
+  //   config: {
+  //     threshold: 1024,
+  //     gzip: true,
+  //     br: true,
+  //   },
+  // },
   "strapi::session",
   "strapi::favicon",
   "strapi::public",

@@ -241,15 +241,13 @@ module.exports = createCoreController("api::article.article", ({ strapi }) => ({
             },
           },
           car_models: {
+            select: ['name', 'slug'],
             populate: {
               car_trims: {
-                populate: {
-                  featuredImage: true,
-                  car_brands: true,
-                },
+                select: ['name', 'slug', 'year'],
+                limit: 5,
               },
             },
-            car_brands: true, // Populate car brand for each car model
           },
           select_related_videos: {
             populate: {
@@ -387,16 +385,6 @@ module.exports = createCoreController("api::article.article", ({ strapi }) => ({
           article_type: true,
         },
       });
-
-      console.log("Current Article ID:", article.id);
-
-      console.log("Article Type ID:", articleType.id);
-      console.log(
-        "Querying Previous Article with ID less than",
-        article.id,
-        "and Article Type ID",
-        articleType.id
-      );
 
       if (!article) {
         return ctx.notFound("Article not found");
@@ -538,9 +526,6 @@ module.exports = createCoreController("api::article.article", ({ strapi }) => ({
       );
 
       const slugs = Object.keys(slugToViewsMap);
-      console.log(
-        `Updating ${slugs.length} articles with new engagement data.`
-      );
 
       for (let i = 0; i < slugs.length; i++) {
         const slug = slugs[i];
@@ -563,12 +548,6 @@ module.exports = createCoreController("api::article.article", ({ strapi }) => ({
               );
             })
           );
-          console.log(
-            `Updated article ${i + 1}/${slugs.length
-            }: ${slug} with ${engagedSessions} engagements.`
-          );
-        } else {
-          console.log(`No article found for slug ${slug}.`);
         }
       }
 
@@ -995,8 +974,6 @@ module.exports = createCoreController("api::article.article", ({ strapi }) => ({
 
     // Final Fallback for all cases: Show popular or recent articles if no related articles found
     if (relatedArticles.length === 0) {
-      console.log('No related articles by primary or secondary criteria. Fetching popular or recent articles.');
-
       // Fetch recent or popular articles
       relatedArticles = await strapi.entityService.findMany('api::article.article', {
         filters: { publishedAt: { $ne: null } },
@@ -1097,6 +1074,7 @@ module.exports = createCoreController("api::article.article", ({ strapi }) => ({
       // Fetch articles with the filters applied
       const articles = await strapi.entityService.findMany('api::article.article', {
         filters,
+        limit: 20,
         fields: ['id', 'title', 'slug', 'publishedAt', 'summary'],
         populate: ['coverImage', 'author', 'article_types'],
         sort: { publishedAt: 'desc' },
@@ -1150,6 +1128,7 @@ module.exports = createCoreController("api::article.article", ({ strapi }) => ({
       // Fetch articles with the filters applied
       const articles = await strapi.entityService.findMany('api::article.article', {
         filters,
+        limit: 20,
         fields: ['id', 'title', 'slug', 'publishedAt', 'summary'],
         populate: ['coverImage', 'author', 'article_types'],
         sort: { publishedAt: 'desc' },
