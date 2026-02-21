@@ -15,7 +15,6 @@ import restCache from "strapi-plugin-rest-cache/strapi-admin";
 import translate from "strapi-plugin-translate/strapi-admin";
 import vercelDeploy from "strapi-plugin-vercel-deploy/strapi-admin";
 import allCarsList from "../../src/plugins/all-cars-list/strapi-admin";
-import cache from "../../src/plugins/cache/strapi-admin";
 import { renderAdmin } from "@strapi/strapi/admin";
 
 import customisations from "../../src/admin/app.js";
@@ -37,6 +36,5 @@ renderAdmin(document.getElementById("strapi"), {
     translate: translate,
     "vercel-deploy": vercelDeploy,
     "all-cars-list": allCarsList,
-    cache: cache,
   },
 });

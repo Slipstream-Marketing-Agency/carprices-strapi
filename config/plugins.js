@@ -13,6 +13,14 @@ module.exports = ({ env }) => ({
         uploadStream: {},
         delete: {},
       },
+      // Enable media library to properly list files
+      breakpoints: {
+        xlarge: 1920,
+        large: 1000,
+        medium: 750,
+        small: 500,
+        xsmall: 64
+      },
     },
   },
   "import-export-entries": {
@@ -81,7 +89,7 @@ module.exports = ({ env }) => ({
     resolve: './src/plugins/all-cars-list'
   },
   'rest-cache': {
-    enabled: true,
+    enabled: false,
     config: {
       provider: {
         name: "memory",
@@ -124,7 +132,7 @@ module.exports = ({ env }) => ({
     },
   },
   'cache': {
-    enabled: true,
+    enabled: false,
     resolve: './src/plugins/cache'
   },
 });
